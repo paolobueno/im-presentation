@@ -1,0 +1,16 @@
+{
+  "name": "im-presentation",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "mdx-deck deck.mdx"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "mdx-deck": "^1.8.2",
+    "react": "^16.7.0-alpha.2"
+  }
+}
