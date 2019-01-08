@@ -22,7 +22,7 @@ class SelectableImage extends React.Component {
   }
 
   render() {
-    const {width, height, imageStyle, onClick, ...props} = this.props;
+    const {width, height, imageStyle, onData, ...props} = this.props;
     const coords = view(coordsLens, this.state);
     return (
       <Fragment>
@@ -50,8 +50,8 @@ class SelectableImage extends React.Component {
             const ctx = cnv.getContext('2d');
             ctx.drawImage(this.canvas.current, 0, 0);
             const imgData = ctx.getImageData(0, 0, width, height);
-            const dataRow = imgData.data.slice(y * width * 4, (y + 1) * width * 4);
-            onClick && onClick(dataRow);
+            const dataRow = imgData.data.slice((y - 1) * imgData.width * 4, y * imgData.width * 4);
+            onData && onData(dataRow);
           }}
           {...props}
         />
