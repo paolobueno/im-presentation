@@ -11,6 +11,7 @@
   "license": "MIT",
   "devDependencies": {
     "mdx-deck": "^1.8.2",
-    "react": "^16.7.0-alpha.2"
+    "react": "^16.7.0-alpha.2",
+    "react-dom": "^16.7.0-alpha.2"
   }
 }
