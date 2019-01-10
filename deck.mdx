@@ -1,11 +1,15 @@
 export {default as theme} from './theme';
-import {Head, Image, Appear} from 'mdx-deck';
+import {Head, Appear} from 'mdx-deck';
+import {Invert, Split} from 'mdx-deck/layouts';
 import ImagesAsFunctions from './slides/ImagesAsFunctions';
+import Channels from './slides/Channels';
 
 <Head>
   <title>Computer vision basics on the Web</title>
   <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" />
 </Head>
+
+export default Invert
 
 # Computer&nbsp;vision basics on&nbsp;the&nbsp;Web
 
@@ -14,17 +18,63 @@ import ImagesAsFunctions from './slides/ImagesAsFunctions';
 # What is computer vision?
 
 - Image acquisition 📷
-- Pre-processing
-- Feature extraction
+- **Pre-processing**
+- **Feature extraction**
 - Segmentation
 - Recognition
 - Decision-making
 
 ---
 
-## Images as functions
+# Image acquisition
+
+<img style={{height: '70vh'}} src="assets/bayer.svg" />
+
+---
+
+## Demosaicing
+
+<img style={{height: '60vh'}} src="assets/bayer1.png" />
+<img style={{height: '60vh'}} src="assets/bayer3.jpg" />
+
+---
+
+# Image display
+
+<img style={{height: '50vh'}} src="assets/rgb.svg" />
+<img style={{height: '50vh'}} src="assets/crt.png" />
+
+---
+
+## Images as arrays
+
+import ImagesAsArrays from './slides/ImagesAsArrays';
+
+<ImagesAsArrays src="assets/lenna_small.png" />
+
+---
+
+## Images as functions of space
 
 <ImagesAsFunctions />
+
+---
+
+## Image Processing
+
+---
+
+## Channels
+
+<Channels src="assets/lenna.png" />
+
+---
+
+## Grayscaling
+
+```js
+const hello = 'world';
+```
 
 ---
 

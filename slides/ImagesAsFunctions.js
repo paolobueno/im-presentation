@@ -1,9 +1,9 @@
-import React, {Fragment, useState} from 'react';
-import SelectableImage from '../components/SelectableImage';
-import {LineChart, Line, Tooltip, YAxis} from 'recharts';
+import React, {useState} from 'react';
+import {Line, LineChart} from 'recharts';
+import ScanImage from '../components/ScanImage';
 
-const width = 400;
-const height = 250;
+const width = 800;
+const height = 500;
 
 const processPxArray = pixels => {
   const res = [];
@@ -20,26 +20,24 @@ const processPxArray = pixels => {
 };
 
 export default () => {
-  const [data, setData] = useState([]);
-  console.log(data[0]);
+  const [levels, setLevels] = useState([]);
   const lineOpts = {
     dot: false,
     animationDuration: 300,
-    type: 'monotone',
   };
   return (
-    <Fragment>
-      <SelectableImage
+    <div style={{display: 'flex'}}>
+      <ScanImage
         src="assets/fruits.jpg"
         width={width}
         height={height}
-        onData={pixels => setData(processPxArray(pixels))}
+        onData={pixels => setLevels(processPxArray(pixels))}
       />
-      <LineChart data={data} width={width} height={height}>
+      <LineChart data={levels} width={width * 0.75} height={height}>
         <Line dataKey="r" {...lineOpts} stroke="red" />
         <Line dataKey="g" {...lineOpts} stroke="green" />
         <Line dataKey="b" {...lineOpts} stroke="blue" />
       </LineChart>
-    </Fragment>
+    </div>
   );
 };
