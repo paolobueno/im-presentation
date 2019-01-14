@@ -1,109 +1,92 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import Code from 'mdx-deck/dist/Code';
+import {map, prop} from 'ramda';
 
 const SelectableImage = styled.img`
-  width: 100%;
-  border: ${({selected}) => (selected ? 'dotted' : 'none')};
+  height: 100%;
+  width: auto;
+  border: ${({selected}) => (selected ? 'dotted' : 'none')} 1px;
+  box-sizing: border-box;
 `;
 
-const filters = (
-  <svg width="0" height="0">
-    <filter id="filter-red">
-      <feComponentTransfer>
-        <feFuncG type="discrete" tableValues="0" />
-        <feFuncR type="identity" tableValues="0" />
-        <feFuncB type="discrete" tableValues="0" />
-        <feFuncA type="identity" />
-      </feComponentTransfer>
-    </filter>
-    <filter id="filter-green">
-      <feComponentTransfer>
-        <feFuncG type="identity" tableValues="0" />
-        <feFuncR type="discrete" tableValues="0" />
-        <feFuncB type="discrete" tableValues="0" />
-        <feFuncA type="identity" />
-      </feComponentTransfer>
-    </filter>
-    <filter id="filter-blue">
-      <feComponentTransfer>
-        <feFuncG type="discrete" tableValues="0" />
-        <feFuncR type="discrete" tableValues="0" />
-        <feFuncB type="identity" tableValues="0" />
-        <feFuncA type="identity" />
-      </feComponentTransfer>
-    </filter>
-  </svg>
-);
-
-const filterDeclarations = [
-  `<feComponentTransfer>
+const filters = [
+  {
+    el: (
+      <filter id="filter-red">
+        <feComponentTransfer>
+          <feFuncG type="discrete" tableValues="0" />
+          <feFuncB type="discrete" tableValues="0" />
+        </feComponentTransfer>
+      </filter>
+    ),
+    code: `<feComponentTransfer>
   <feFuncG type="discrete" tableValues="0" />
-  <feFuncR type="identity" tableValues="0" />
   <feFuncB type="discrete" tableValues="0" />
-  <feFuncA type="identity" />
 </feComponentTransfer>`,
-  `<feComponentTransfer>
-  <feFuncG type="identity" />
+  },
+  {
+    el: (
+      <filter id="filter-green">
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="0" />
+          <feFuncG type="table" tableValues="0 0 1" />
+          <feFuncB type="discrete" tableValues="0" />
+        </feComponentTransfer>
+      </filter>
+    ),
+    code: `<feComponentTransfer>
   <feFuncR type="discrete" tableValues="0" />
+  <feFuncG type="table" tableValues="0 0 1" />
   <feFuncB type="discrete" tableValues="0" />
-  <feFuncA type="identity" />
 </feComponentTransfer>`,
-  `<feComponentTransfer>
-<feFuncG type="discrete" tableValues="0" />
-<feFuncR type="discrete" tableValues="0" />
-<feFuncB type="identity" tableValues="0" />
-<feFuncA type="identity" />
+  },
+  {
+    el: (
+      <filter id="filter-blue">
+        <feComponentTransfer>
+          <feFuncR type="discrete" tableValues="0" />
+          <feFuncG type="discrete" tableValues="0" />
+          <feFuncB type="discrete" tableValues="0 1 1 1" />
+        </feComponentTransfer>
+      </filter>
+    ),
+    code: `<feComponentTransfer>
+  <feFuncG type="discrete" tableValues="0" />
+  <feFuncR type="discrete" tableValues="0" />
+  <feFuncB type="discrete" tableValues="0 1 1 1" />
 </feComponentTransfer>`,
+  },
 ];
 
-const ImgContainer = styled.div`
-  width: 10vw;
-`;
-
 export default ({src}) => {
-  const [selected, setSelected] = useState(null);
-  const toggleSelect = value => () => setSelected(selected === value ? null : value);
+  const [selected, setSelected] = useState(0);
   return (
-    <div style={{display: 'flex'}}>
-      <div style={{display: 'flex', flexDirection: 'column'}}>
-        {filters}
-        <div style={{flex: 2, width: '30vh'}}>
-          <img src={src} style={{width: '100%'}} />
-        </div>
-        <div style={{display: 'flex', flex: 1}}>
-          <ImgContainer>
-            <SelectableImage
-              src={src}
-              onClick={toggleSelect('r')}
-              selected={selected === 'r'}
-              style={{filter: 'url(#filter-red)'}}
-            />
-          </ImgContainer>
-          <ImgContainer>
-            <SelectableImage
-              src={src}
-              onClick={toggleSelect('g')}
-              selected={selected === 'g'}
-              style={{filter: 'url(#filter-green)'}}
-            />
-          </ImgContainer>
-          <ImgContainer>
-            <SelectableImage
-              src={src}
-              onClick={toggleSelect('b')}
-              selected={selected === 'b'}
-              style={{filter: 'url(#filter-blue)'}}
-            />
-          </ImgContainer>
-        </div>
+    <div style={{display: 'flex', flexDirection: 'column'}}>
+      <svg width="0" height="0">
+        {map(prop('el'), filters)}
+      </svg>
+      <div style={{display: 'flex', flex: 1, margin: '1em'}}>
+        <SelectableImage
+          src={src}
+          onClick={() => setSelected(0)}
+          selected={selected === 0}
+          style={{filter: 'url(#filter-red)'}}
+        />
+        <SelectableImage
+          src={src}
+          onClick={() => setSelected(1)}
+          selected={selected === 1}
+          style={{filter: 'url(#filter-green)'}}
+        />
+        <SelectableImage
+          src={src}
+          onClick={() => setSelected(2)}
+          selected={selected === 2}
+          style={{filter: 'url(#filter-blue)'}}
+        />
       </div>
-      <Code className="language-js">{`<feComponentTransfer>
-  <feFuncG type="discrete" tableValues="0" />
-  <feFuncR type="discrete" tableValues="0" />
-  <feFuncB type="identity" tableValues="0" />
-  <feFuncA type="identity" />
-</feComponentTransfer>`}</Code>
+      <Code className="language-js">{filters[selected].code}</Code>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import React, {useEffect, useState, useRef} from 'react';
 import {getClickCoords} from '../utils';
+import {loadGrayImage} from '../hooks';
 
 const baseSize = 600;
 
@@ -9,41 +10,10 @@ const discretize = (n, length, steps) => {
   return stepSize * step;
 };
 
-const loadGrayImage = img => {
-  const [pixels, setPixels] = useState([]);
-  const [width, setWidth] = useState(0);
-  const [height, setHeight] = useState(0);
-  useEffect(
-    () => {
-      if (!img) {
-        return;
-      }
-      // img.onload = () => {
-      const cnv = document.createElement('canvas');
-      cnv.width = img.naturalWidth;
-      cnv.height = img.naturalHeight;
-      const ctx = cnv.getContext('2d');
-      ctx.drawImage(img, 0, 0);
-      const imgData = ctx.getImageData(0, 0, cnv.width, cnv.height);
-      const redPx = [];
-      for (let i = 0; i < imgData.data.length; i += 4) {
-        redPx.push(imgData.data[i]);
-      }
-      setPixels(redPx);
-      setWidth(cnv.width);
-      setHeight(cnv.height);
-      // };
-    },
-    [img],
-  );
-
-  return {pixels, width, height};
-};
-
 export default ({src}) => {
   const cnv = useRef(null);
   const imgRef = useRef(null);
-  const {pixels, width, height} = loadGrayImage(imgRef.current);
+  const {pixels, width, height} = loadGrayImage(src);
   const [mouseCoords, setMouseCoords] = useState(null);
   const pxWidth = baseSize / width;
   const pxHeight = baseSize / height;
@@ -73,7 +43,7 @@ export default ({src}) => {
         }
       });
     },
-    [pixels],
+    [pixels, width, height],
   );
 
   return (

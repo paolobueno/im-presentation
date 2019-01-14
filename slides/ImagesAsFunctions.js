@@ -42,8 +42,8 @@ export default () => {
         width={width * 0.7}
         height={height}
       >
-        <YAxis type={vertical ? 'category' : 'number'} hide="true" />
-        <XAxis type={vertical ? 'number' : 'category'} hide="true" />
+        <YAxis type={vertical ? 'category' : 'number'} hide />
+        <XAxis type={vertical ? 'number' : 'category'} hide />
         <Line dataKey="r" {...lineOpts} stroke="red" />
         <Line dataKey="g" {...lineOpts} stroke="green" />
         <Line dataKey="b" {...lineOpts} stroke="blue" />

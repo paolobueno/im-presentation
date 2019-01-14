@@ -1,0 +1,12 @@
+{
+  "root": true,
+  "extends": ["warp/jsx"],
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": 2018,
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "plugins": ["react"]
+}
