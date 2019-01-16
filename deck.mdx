@@ -75,11 +75,34 @@ import Grayscaling from 'slides/Grayscaling';
 
 ---
 
+## Morphology
+
+---
+
+<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '0.3em'}}>
+  <div>
+    <p>Erosion ⊖</p>
+    <img src="assets/erosion.png" height="250" />
+  </div>
+  <div>
+    <p>Dilation ⊕</p>
+    <img src="assets/dilation.png" height="250" />
+  </div>
+  <div>
+    <p>Opening (⊕ ∘ ⊖)</p>
+    <img src="assets/opening.png" height="250" />
+  </div>
+  <div>
+    <p>Closing (⊖ ∘ ⊕)</p>
+    <img src="assets/closing.png" height="250" />
+  </div>
+</div>
+
+---
+
 import Morphology from 'slides/Morphology';
 
-## Morphology Operations
-
-<Morphology src="assets/building_donuts.jpg" style={{width: '60vw', height: '60vh'}} />
+<Morphology src="assets/dark_windows.jpg" style={{width: '60vw', height: '60vh'}} />
 
 ---
 
@@ -88,5 +111,3 @@ import Morphology from 'slides/Morphology';
 1. Template Matching
 1. Applications
 1. What next?
-
----
