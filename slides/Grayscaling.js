@@ -1,7 +1,8 @@
 import React, {useRef, useState} from 'react';
-import ImgThresh from '../components/ImgThresh';
-import Histogram from '../components/Histogram';
 import styled from 'styled-components';
+import Thresh from '../components/filters/Thresh';
+import Histogram from '../components/Histogram';
+import ImgFilter from '../components/ImgFilter';
 
 const Container = styled.div`
   display: grid;
@@ -24,13 +25,15 @@ export default ({src, width, height}) => {
         ref={img}
         src={src}
       />
-      <ImgThresh
+      <ImgFilter
         height={height}
         width={width}
         style={{gridRow: 1, gridColumn: 2}}
         src={src}
-        thresh={thresh}
-      />
+        cssPre="grayscale()"
+      >
+        <Thresh thresh={thresh} />
+      </ImgFilter>
       <Histogram style={{gridRow: 2, gridColumn: '1 / span 2'}} src={src} onClick={setThresh} />
     </Container>
   );

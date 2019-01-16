@@ -1,6 +1,10 @@
 {
   "root": true,
-  "extends": ["warp/jsx"],
+  "extends": ["warp/es6", "warp/jsx"],
+  "parser": "babel-eslint",
+  "rules": {
+    "react/prop-types": "off"
+  },
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018,

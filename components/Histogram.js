@@ -1,5 +1,5 @@
 import {map, max, min, toPairs, sortBy, prop, compose, reduce} from 'ramda';
-import React, {useRef, useState} from 'react';
+import React, {useRef, useState, memo} from 'react';
 import {ComposedChart, Line, ResponsiveContainer, XAxis} from 'recharts';
 import {loadGrayImage} from '../hooks';
 
@@ -49,14 +49,13 @@ const otsu = (histogram, total) => {
   return otsuLevel;
 };
 
-export default ({onClick, src, style}) => {
+export default memo(({onClick, src, style}) => {
   const [x, setX] = useState(0);
   const chartRef = useRef(null);
   const {pixels} = loadGrayImage(src, 0.1);
   const hasColor = pixels.some(x => x > 0);
   const data = hasColor ? hist(pixels) : [];
   const otsuThresh = otsu(data, pixels.length);
-  console.log(otsuThresh);
   let chartWidth = 0;
   if (chartRef.current) {
     chartWidth = chartRef.current.container.clientWidth;
@@ -83,4 +82,4 @@ export default ({onClick, src, style}) => {
       </ResponsiveContainer>
     </div>
   );
-};
+});
