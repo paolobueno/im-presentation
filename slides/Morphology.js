@@ -8,8 +8,8 @@ import {compose, filter, prop, toPairs, map, mergeDeepRight} from 'ramda';
 
 const Activatable = styled.label`
   cursor: pointer;
-  opacity: ${({active}) => (active ? 1 : 0.5)};
-  background-color: ${({active}) => (active ? 'transparent' : '#ccc')};
+  opacity: ${({disabled}) => (disabled ? 0.5 : 1)};
+  background-color: ${({disabled}) => (disabled ? '#ccc' : 'transparent')};
   border-radius: 0.2em;
   padding: 0.3em;
   margin: 0.1em 0;
@@ -44,23 +44,31 @@ const createFilters = compose(
 
 export default memo(({src, ...props}) => {
   const [thresh, setThresh] = useState(100);
+  const [invert, setInvert] = useState(false);
   const [operators, setOperators] = useState({
-    dilate: {operators: ['dilate'], active: false, value: 0},
-    erode: {operators: ['erode'], active: false, value: 0},
-    open: {operators: ['erode', 'dilate'], active: false, value: 0},
-    close: {operators: ['dilate', 'erode'], active: false, value: 0},
+    dilate: {operators: ['dilate'], active: false, value: 1},
+    erode: {operators: ['erode'], active: false, value: 1},
+    open: {operators: ['erode', 'dilate'], active: false, value: 1},
+    close: {operators: ['dilate', 'erode'], active: false, value: 1},
   });
 
   return (
     <div {...props} style={{...props.style, display: 'flex'}}>
       <div style={{flex: 1}}>
         <ImgFilter style={{width: 'auto', height: '100%'}} src={src} cssPre="grayScale()">
+          {invert ? (
+            <feComponentTransfer>
+              <feFuncR type="table" tableValues="1 0" />
+              <feFuncG type="table" tableValues="1 0" />
+              <feFuncB type="table" tableValues="1 0" />
+            </feComponentTransfer>
+          ) : null}
           <Thresh thresh={thresh} />
           {createFilters(operators)}
         </ImgFilter>
       </div>
       <div style={{display: 'flex', flex: 0.3, flexDirection: 'column'}}>
-        <Activatable active>
+        <Activatable onDoubleClick={() => setInvert(!invert)}>
           <LabelText>Threshold</LabelText>
           <InlineSlider
             startingValue={100}
@@ -68,13 +76,14 @@ export default memo(({src, ...props}) => {
             max={255}
             onChange={setThresh}
             Component={Slider}
+            format={x => (invert ? `${x} (inverted)` : x)}
           />
         </Activatable>
 
         {mapPairs(([key, {active, value}]) => (
           <Activatable
             key={key}
-            active={active}
+            disabled={!active}
             onDoubleClick={() =>
               setOperators(mergeDeepRight(operators, {[key]: {value, active: !active}}))
             }

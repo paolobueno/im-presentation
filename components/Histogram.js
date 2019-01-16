@@ -23,7 +23,6 @@ const hist = arr => {
 };
 
 const otsu = (histogram, total) => {
-  console.log('otsu', total);
   let sum0 = 0;
   let p0 = 0;
   let maxVariance = 0;
@@ -71,7 +70,6 @@ export default memo(({onClick, src, style}) => {
   if (chartRef.current) {
     chartWidth = chartRef.current.container.clientWidth;
   }
-  console.log(otsuThresh.current);
 
   return (
     <div style={style}>
