@@ -1,5 +1,5 @@
 import {map, max, min, toPairs, sortBy, prop, compose, reduce} from 'ramda';
-import React, {useRef, useState, memo} from 'react';
+import React, {useRef, useState, useEffect, memo} from 'react';
 import {ComposedChart, Line, ResponsiveContainer, XAxis} from 'recharts';
 import {loadGrayImage} from '../hooks';
 
@@ -23,6 +23,7 @@ const hist = arr => {
 };
 
 const otsu = (histogram, total) => {
+  console.log('otsu', total);
   let sum0 = 0;
   let p0 = 0;
   let maxVariance = 0;
@@ -51,15 +52,26 @@ const otsu = (histogram, total) => {
 
 export default memo(({onClick, src, style}) => {
   const [x, setX] = useState(0);
-  const chartRef = useRef(null);
+  const [dragging, setDragging] = useState(false);
+  const otsuThresh = useRef(0);
+
   const {pixels} = loadGrayImage(src, 0.1);
+
   const hasColor = pixels.some(x => x > 0);
   const data = hasColor ? hist(pixels) : [];
-  const otsuThresh = otsu(data, pixels.length);
+  useEffect(
+    () => {
+      otsuThresh.current = otsu(data, pixels.length);
+    },
+    [pixels],
+  );
+
   let chartWidth = 0;
+  const chartRef = useRef(null);
   if (chartRef.current) {
     chartWidth = chartRef.current.container.clientWidth;
   }
+  console.log(otsuThresh.current);
 
   return (
     <div style={style}>
@@ -67,7 +79,12 @@ export default memo(({onClick, src, style}) => {
         <ComposedChart
           data={data}
           ref={chartRef}
-          onClick={({chartX}) => {
+          onClick={() => setDragging(!dragging)}
+          onMouseLeave={() => setDragging(false)}
+          onMouseMove={({chartX}) => {
+            if (!dragging) {
+              return;
+            }
             setX(chartX);
             onClick((chartX / chartWidth) * 255);
           }}
@@ -75,8 +92,8 @@ export default memo(({onClick, src, style}) => {
           <XAxis dataKey="key" type="number" domain={[minOf(pixels), maxOf(pixels)]} hide />
           <Line dataKey="value" dot={false} stroke="red" />
           {x > 0 ? <rect x={x} width={1} height="100%" fill="red" /> : null}
-          {otsuThresh ? (
-            <rect x={chartWidth * (otsuThresh / 255)} width={1} height="100%" fill="blue" />
+          {otsuThresh.current ? (
+            <rect x={chartWidth * (otsuThresh.current / 255)} width={1} height="100%" fill="blue" />
           ) : null}
         </ComposedChart>
       </ResponsiveContainer>

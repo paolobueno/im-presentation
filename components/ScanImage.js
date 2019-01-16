@@ -55,12 +55,10 @@ class ScanImage extends React.Component {
     ctx.drawImage(tempCanvas, 0, 0);
   };
 
-  draw = ctx => {
+  draw = () => {
     const img = this.img;
-    if (!ctx) {
-      const cnv = this.canvas.current;
-      ctx = cnv.getContext('2d');
-    }
+    const cnv = this.canvas.current;
+    const ctx = cnv.getContext('2d');
     ctx.drawImage(img, 0, 0, img.width, img.height);
   };
 
