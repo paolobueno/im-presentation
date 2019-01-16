@@ -1,13 +1,12 @@
 import {swiss as theme} from 'mdx-deck/themes';
+import {mergeDeepRight} from 'ramda';
 
-export default {
-  ...theme,
+export default mergeDeepRight(theme, {
   font: 'Work Sans, sans-serif',
+  css: {
+    userSelect: 'none',
+  },
   heading: {
-    ...theme.heading,
     fontFamily: 'Roboto Slab, sans-serif',
   },
-  colors: {
-    ...theme.colors,
-  },
-};
+});
