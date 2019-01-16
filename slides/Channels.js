@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import Code from 'mdx-deck/dist/Code';
 import ImgFilter from '../components/ImgFilter';
-import {renderToString} from 'react-dom/server';
+import {renderToStaticMarkup} from 'react-dom/server';
 
 const Selectable = styled.div`
   border: ${({selected}) => (selected ? 'dotted' : 'none')} 1px;
@@ -28,13 +28,11 @@ const filters = [
 
 export default ({src}) => {
   const [selected, setSelected] = useState(0);
-  const code = renderToString(filters[selected])
-  .replace(' data-reactroot=""', '')
-  .replace(/>/g, '>\n');
+  const code = renderToStaticMarkup(filters[selected]).replace(/>/g, '>\n');
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
-      <div style={{display: 'flex', flex: 1, margin: '1em'}}>
+      <div style={{display: 'flex', height: '40vh'}}>
         {filters.map((filter, idx) => (
           <Selectable key={idx} onClick={() => setSelected(idx)} selected={selected === idx}>
             <ImgFilter style={{height: '100%', width: 'auto'}} src={src}>
@@ -43,7 +41,9 @@ export default ({src}) => {
           </Selectable>
         ))}
       </div>
-      <Code className="language-js">{code}</Code>
+      <Code className="language-js">
+        {code}
+      </Code>
     </div>
   );
 };

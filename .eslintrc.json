@@ -5,6 +5,7 @@
   "rules": {
     "react/prop-types": "off"
   },
+  "env": {"browser": true},
   "parserOptions": {
     "sourceType": "module",
     "ecmaVersion": 2018,
