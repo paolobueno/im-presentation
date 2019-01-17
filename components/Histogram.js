@@ -1,12 +1,9 @@
-import {map, max, min, toPairs, sortBy, prop, compose, reduce} from 'ramda';
+import {map, toPairs, sortBy, prop, compose, reduce} from 'ramda';
 import React, {useRef, useState, useEffect, memo} from 'react';
 import {ComposedChart, Line, ResponsiveContainer, XAxis} from 'recharts';
 import {loadGrayImage} from '../hooks';
 
 const chartHeight = 300;
-
-const minOf = arr => arr.reduce(min, Infinity);
-const maxOf = arr => arr.reduce(max, 0);
 
 const hist = arr => {
   const res = {};
@@ -56,8 +53,7 @@ export default memo(({onClick, src, style}) => {
 
   const {pixels} = loadGrayImage(src, 0.1);
 
-  const hasColor = pixels.some(x => x > 0);
-  const data = hasColor ? hist(pixels) : [];
+  const data = hist(pixels);
   useEffect(
     () => {
       otsuThresh.current = otsu(data, pixels.length);
@@ -79,15 +75,17 @@ export default memo(({onClick, src, style}) => {
           ref={chartRef}
           onClick={() => setDragging(!dragging)}
           onMouseLeave={() => setDragging(false)}
-          onMouseMove={({chartX}) => {
-            if (!dragging) {
+          onMouseMove={e => {
+            if (!e || !dragging) {
               return;
             }
+            const {chartX} = e;
             setX(chartX);
-            onClick((chartX / chartWidth) * 255);
+            const value = Math.floor((chartX / chartWidth) * 255);
+            onClick(value);
           }}
         >
-          <XAxis dataKey="key" type="number" domain={[minOf(pixels), maxOf(pixels)]} hide />
+          <XAxis dataKey="key" type="number" domain={[0, 255]} hide />
           <Line dataKey="value" dot={false} stroke="red" />
           {x > 0 ? <rect x={x} width={1} height="100%" fill="red" /> : null}
           {otsuThresh.current ? (
