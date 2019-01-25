@@ -17,7 +17,7 @@ const loadImageData = (img, scale, filter = '') => {
 export const loadImage = (src, scale = 1, filter = '') => {
   const [data, setData] = useState({pixels: [], width: 0, height: 0, ready: false});
   useEffect(
-    () => {
+    function renderImage() {
       const img = new Image();
       img.src = src;
       img.crossOrigin = '';
@@ -46,7 +46,7 @@ const loadPixels = (img, scale, filter = 'grayscale()') => {
 export const loadGrayImage = (src, scale = 1) => {
   const [data, setData] = useState({pixels: [], width: 0, height: 0, ready: false});
   useEffect(
-    () => {
+    function reportRedChannel() {
       const img = new Image();
       img.src = src;
       img.crossOrigin = '';

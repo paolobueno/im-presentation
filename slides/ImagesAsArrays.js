@@ -27,12 +27,13 @@ export default ({src, baseSize = 600}) => {
   const y = mouseCoords && rectY(mouseCoords[1]);
   const mouseX = Math.ceil(x / pxWidth);
   const mouseY = Math.ceil(y / pxHeight);
-  const pixelCode = mouseCoords && `const {data, width} = canvas.getContext('2d').getImageData();
+  const pixelCode =
+    mouseCoords &&
+    `const {data, width} = canvas.getContext('2d').getImageData();
 data[${mouseY} * width + ${mouseX}] === ${pixels[mouseY * width + mouseX]};`;
 
-  // draw pixels
   useEffect(
-    () => {
+    function drawDestCanvas() {
       const canvas = cnv.current;
       if (!canvas || !pixels.length) {
         return;
@@ -108,9 +109,7 @@ data[${mouseY} * width + ${mouseX}] === ${pixels[mouseY * width + mouseX]};`;
         </svg>
       </div>
 
-      <Code customStyle={{gridArea: 'fn'}}>
-        {pixelCode}
-      </Code>
+      <Code customStyle={{gridArea: 'fn'}}>{pixelCode}</Code>
     </Layout>
   );
 };

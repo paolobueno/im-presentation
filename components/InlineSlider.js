@@ -30,7 +30,7 @@ export default memo(
     const [startX, setStartX] = useState(0);
 
     useEffect(
-      () => {
+      function setGlobalCursor() {
         document.body.style.cursor = dragging ? 'ew-resize' : null;
         return () => {
           document.body.style.cursor = null;

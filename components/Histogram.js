@@ -55,7 +55,7 @@ export default memo(({onClick, src, style}) => {
 
   const data = hist(pixels);
   useEffect(
-    () => {
+    function calcOtsu() {
       otsuThresh.current = otsu(data, pixels.length);
     },
     [pixels],

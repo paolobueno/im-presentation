@@ -1,4 +1,4 @@
-import {lensIndex, set, sum} from 'ramda';
+import {sum} from 'ramda';
 import React, {memo, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import InlineSlider from '../components/InlineSlider';
@@ -85,7 +85,7 @@ export default memo(({src, width, height}) => {
 
   const cnv = useRef(null);
   useEffect(
-    () => {
+    function draw() {
       if (!cnv.current || !ready) {
         return;
       }
