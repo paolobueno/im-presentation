@@ -10,7 +10,7 @@ const noop = () => {};
 
 export default memo(
   ({
-    startingValue = 0,
+    value = 0,
     min = 0,
     max = 100,
     onChange = noop,
@@ -26,7 +26,6 @@ export default memo(
     const el = useRef(null);
 
     const [dragging, setDragging] = useState(false);
-    const [value, setValue] = useState(startingValue);
     const [dragValue, setDragValue] = useState(0);
     const [startX, setStartX] = useState(0);
 
@@ -60,7 +59,6 @@ export default memo(
         const delta = e.screenX - startX;
         const newValue = clampToValues(Math.floor(dragValue + delta / pixelsPerUnit));
         onChange(newValue);
-        setValue(newValue);
       },
     };
     return (

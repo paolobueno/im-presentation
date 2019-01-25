@@ -1,3 +1,5 @@
+import '@babel/polyfill';
+
 export {default as theme} from './theme';
 import {Head, Appear} from 'mdx-deck';
 import ImagesAsFunctions from './slides/ImagesAsFunctions';
@@ -106,8 +108,6 @@ import Morphology from 'slides/Morphology';
 
 ---
 
-1. Morphology
-1. Convolution
-1. Template Matching
-1. Applications
-1. What next?
+import Convolution from './slides/Convolution';
+
+<Convolution src="assets/lenna_small.png" width={384} height={384} />

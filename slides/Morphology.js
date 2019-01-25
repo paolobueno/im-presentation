@@ -71,7 +71,7 @@ export default memo(({src, ...props}) => {
         <Activatable onDoubleClick={() => setInvert(!invert)}>
           <LabelText>Threshold</LabelText>
           <InlineSlider
-            startingValue={100}
+            value={thresh}
             min={0}
             max={255}
             onChange={setThresh}
@@ -90,7 +90,7 @@ export default memo(({src, ...props}) => {
           >
             <LabelText>{key}</LabelText>
             <InlineSlider
-              startingValue={value}
+              value={value}
               onChange={v => setOperators(mergeDeepRight(operators, {[key]: {value: v, active}}))}
               min={0}
               max={40}

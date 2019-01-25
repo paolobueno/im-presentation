@@ -1,18 +1,46 @@
 import {useState, useEffect} from 'react';
 
-const loadPixels = (img, scale, filter = 'grayscale()') => {
+const loadImageData = (img, scale, filter = '') => {
   const cnv = document.createElement('canvas');
   cnv.width = img.naturalWidth * scale;
   cnv.height = img.naturalHeight * scale;
   const ctx = cnv.getContext('2d');
   ctx.filter = filter;
   ctx.drawImage(img, 0, 0, cnv.width, cnv.height);
-  const imgData = ctx.getImageData(0, 0, cnv.width, cnv.height);
+  return {
+    imageData: ctx.getImageData(0, 0, cnv.width, cnv.height),
+    width: cnv.width,
+    height: cnv.height,
+  };
+};
+
+export const loadImage = (src, scale = 1, filter = '') => {
+  const [data, setData] = useState({pixels: [], width: 0, height: 0, ready: false});
+  useEffect(
+    () => {
+      const img = new Image();
+      img.src = src;
+      img.crossOrigin = '';
+      img.onload = () => {
+        const {imageData, width, height} = loadImageData(img, scale, filter);
+        if (imageData.data.length > 0 && imageData.data.some(x => x > 0)) {
+          setData({imageData, width, height, ready: true});
+        }
+      };
+    },
+    [src],
+  );
+
+  return data;
+};
+
+const loadPixels = (img, scale, filter = 'grayscale()') => {
+  const {imageData, width, height} = loadImageData(img, scale, filter);
   const pixels = [];
-  for (let i = 0; i < imgData.data.length; i += 4) {
-    pixels.push(imgData.data[i]);
+  for (let i = 0; i < imageData.data.length; i += 4) {
+    pixels.push(imageData.data[i]);
   }
-  return {pixels, width: cnv.width, height: cnv.height};
+  return {pixels, width, height};
 };
 
 export const loadGrayImage = (src, scale = 1) => {
