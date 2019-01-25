@@ -20,17 +20,17 @@ export default ({src, baseSize = 600}) => {
   const pxWidth = baseSize / width;
   const pxHeight = baseSize / height;
 
-  const rectX = discretize(baseSize, width);
-  const rectY = discretize(baseSize, height);
+  const getRectX = discretize(baseSize, width);
+  const getRectY = discretize(baseSize, height);
 
-  const x = mouseCoords && rectX(mouseCoords[0]);
-  const y = mouseCoords && rectY(mouseCoords[1]);
-  const mouseX = Math.ceil(x / pxWidth);
-  const mouseY = Math.ceil(y / pxHeight);
+  const rectX = mouseCoords && getRectX(mouseCoords[0]);
+  const rectY = mouseCoords && getRectY(mouseCoords[1]);
+  const pixelX = Math.ceil(rectX / pxWidth);
+  const pixelY = Math.ceil(rectY / pxHeight);
   const pixelCode =
     mouseCoords &&
     `const {data, width} = canvas.getContext('2d').getImageData();
-data[${mouseY} * width + ${mouseX}] === ${pixels[mouseY * width + mouseX]};`;
+data[${pixelY} * width + ${pixelX}] === ${pixels[pixelY * width + pixelX]};`;
 
   useEffect(
     function drawDestCanvas() {
@@ -84,8 +84,8 @@ data[${mouseY} * width + ${mouseX}] === ${pixels[mouseY * width + mouseX]};`;
             <rect
               width={pxWidth}
               height={pxHeight}
-              x={x}
-              y={y}
+              x={rectX}
+              y={rectY}
               style={{fill: 'none', stroke: 'red'}}
             />
           )}
@@ -101,8 +101,8 @@ data[${mouseY} * width + ${mouseX}] === ${pixels[mouseY * width + mouseX]};`;
             <rect
               width={pxWidth}
               height={pxHeight}
-              x={x}
-              y={y}
+              x={rectX}
+              y={rectY}
               style={{fill: 'none', stroke: 'red'}}
             />
           )}

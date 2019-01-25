@@ -1,17 +1,9 @@
-import {sum} from 'ramda';
+import {clamp, multiply, sum, zipWith} from 'ramda';
 import React, {memo, useEffect, useRef, useState} from 'react';
 import styled from 'styled-components';
 import InlineSlider from '../components/InlineSlider';
 import {loadImage} from '../hooks';
-
-const SourceImg = styled.img`
-  width: 'auto';
-  height: '100%';
-  max-height: 100px;
-`;
-const Source = ({setSrc, src, ...props}) => (
-  <SourceImg src={src} onClick={() => setSrc(src)} {...props} />
-);
+import {discretize, getClickCoords} from '../utils';
 
 const P = styled.p`
   margin: 0.2em;
@@ -23,6 +15,7 @@ const Container = styled.div`
   display: grid;
   width: 70vw;
   grid-column-gap: 1rem;
+  grid-row-gap: 0.5rem;
   grid-template-areas:
     'source dest'
     'select sources'
@@ -47,6 +40,19 @@ const Bl = styled.div`
   justify-content: space-around;
 `;
 
+const BlShaded = ({children, style, ...props}) => (
+  <Bl
+    {...props}
+    style={{
+      backgroundColor: `rgb(${children}, ${children}, ${children})`,
+      color: children > 128 ? 'black' : 'white',
+      ...style,
+    }}
+  >
+    {children}
+  </Bl>
+);
+
 const filterId = 'convolution-filter';
 
 const drawWithFilter = (imageData, canvas, filter) => {
@@ -67,21 +73,47 @@ const kernels = {
   'Box Blur': [1, 1, 1, 1, 5, 1, 1, 1, 1],
   'Gaussian Blur': [1, 2, 1, 2, 4, 2, 1, 2, 1],
   'Sharpen': [0, -1, 0, -1, 4, -1, 0, -1, 0],
-  'Sobel Horizontal': [-1, 0, 1, -2, 0, 2, -1, 0, -1],
+  'Sobel Horizontal': [-1, 0, 1, -2, 0, 2, -1, 0, 1],
   'Sobel Vertical': [-1, -2, -1, 0, 0, 0, 1, 2, 1],
   'Emboss (diagonal)': [-2, -1, 0, -1, 0, 1, 0, 1, 2],
 };
 
-export default memo(({src, width, height}) => {
+export default memo(({src, baseWidth, baseHeight}) => {
   const [kernel, setKernel] = useState([1, 1, 1, 1, 5, 1, 1, 1, 1]);
+  const [mouseCoords, setMouseCoords] = useState(null);
+
   const setKernelAt = i => v => {
     const k = [...kernel];
     k[i] = v;
     setKernel(k);
   };
-  const divisor = sum(kernel);
 
-  const {imageData, ready} = loadImage(src);
+  const {imageData, ready, width, height} = loadImage(src);
+  const pxWidth = baseWidth / width;
+  const pxHeight = baseHeight / height;
+
+  const getRectX = discretize(baseWidth, width);
+  const getRectY = discretize(baseHeight, height);
+  const rectX = mouseCoords && getRectX(mouseCoords[0]);
+  const rectY = mouseCoords && getRectY(mouseCoords[1]);
+  const pixelX = Math.ceil(rectX / pxWidth);
+  const pixelY = Math.ceil(rectY / pxHeight);
+  const clampX = clamp(0, width);
+  const clampY = clamp(0, height);
+
+  const getPx = (x, y) => (ready ? imageData.data[y * width * 4 + x * 4] : 0);
+  const divisor = sum(kernel) || 1;
+  const targetPixels = [
+    [-1, -1],
+    [0, -1],
+    [1, -1],
+    [-1, 0],
+    [0, 0],
+    [1, 0],
+    [-1, 1],
+    [0, 1],
+    [1, 1],
+  ].map(([x, y]) => getPx(clampX(x + pixelX), clampY(y + pixelY)));
 
   const cnv = useRef(null);
   useEffect(
@@ -98,28 +130,58 @@ export default memo(({src, width, height}) => {
     <Container>
       <svg width="0" height="0">
         <filter id={filterId}>
-          <feConvolveMatrix kernelMatrix={kernel.join(' ')} preserveAlpha="true" edgeMode="none" />
+          <feConvolveMatrix
+            kernelMatrix={kernel.join(' ')}
+            preserveAlpha="true"
+            edgeMode="duplicate"
+          />
         </filter>
       </svg>
 
-      <img
-        src={src}
-        width={width}
-        height={height}
-        style={{gridArea: 'source', imageRendering: 'pixelated'}}
-      />
-      <canvas
+      <div
+        style={{width: baseWidth, height: baseHeight, gridArea: 'source'}}
+        onMouseMove={e => setMouseCoords(getClickCoords(e))}
+      >
+        <img
+          src={src}
+          width={baseWidth}
+          height={baseHeight}
+          style={{imageRendering: 'pixelated', position: 'absolute'}}
+        />
+        <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
+          {mouseCoords && (
+            <rect
+              width={pxWidth * 3}
+              height={pxHeight * 3}
+              x={rectX - pxWidth}
+              y={rectY - pxHeight}
+              style={{fill: 'none', stroke: 'red', strokeDasharray: '4'}}
+            />
+          )}
+        </svg>
+      </div>
+
+      <div
         style={{
+          width: baseWidth,
+          height: baseHeight,
           gridArea: 'dest',
         }}
-        ref={cnv}
-        width={width}
-        height={height}
-      />
-      <select
-        onChange={e => setKernel(JSON.parse(e.target.value))}
-        style={{margin: '0.2em', gridArea: 'select'}}
       >
+        <canvas ref={cnv} width={baseWidth} height={baseHeight} style={{position: 'absolute'}} />
+        <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
+          {mouseCoords && (
+            <rect
+              width={pxWidth}
+              height={pxHeight}
+              x={rectX}
+              y={rectY}
+              style={{fill: 'none', stroke: 'red'}}
+            />
+          )}
+        </svg>
+      </div>
+      <select style={{gridArea: 'select'}} onChange={e => setKernel(JSON.parse(e.target.value))}>
         {Object.entries(kernels).map(([k, v]) => (
           <option key={k} value={JSON.stringify(v)}>
             {k}
@@ -155,30 +217,14 @@ export default memo(({src, width, height}) => {
         </div>
         <P>×</P>
         <BlocksContainer>
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
+          {targetPixels && targetPixels.map((v, i) => <BlShaded key={i}>{v}</BlShaded>)}
         </BlocksContainer>
         <P>÷</P>
         <Bl>{divisor}</Bl>
         <P>=</P>
-        <BlocksContainer>
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-          <Bl />
-        </BlocksContainer>
+        <BlShaded>
+          {Math.round(sum(zipWith(multiply, ([...kernel]).reverse(), targetPixels)) / divisor)}
+        </BlShaded>
       </div>
     </Container>
   );
