@@ -14,3 +14,9 @@ export function lensSetter(lens) {
     this.setState(set(lens, value, this.state));
   };
 }
+
+export const discretize = (length, steps) => n => {
+  const stepSize = length / steps;
+  const step = Math.floor(n / stepSize);
+  return stepSize * step;
+};
