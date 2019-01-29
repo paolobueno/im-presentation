@@ -167,6 +167,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
           height: baseHeight,
           gridArea: 'dest',
         }}
+        onMouseMove={e => setMouseCoords(getClickCoords(e))}
       >
         <canvas ref={cnv} width={baseWidth} height={baseHeight} style={{position: 'absolute'}} />
         <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
@@ -223,7 +224,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
         <Bl>{divisor}</Bl>
         <P>=</P>
         <BlShaded>
-          {Math.round(sum(zipWith(multiply, ([...kernel]).reverse(), targetPixels)) / divisor)}
+          {Math.round(sum(zipWith(multiply, [...kernel].reverse(), targetPixels)) / divisor)}
         </BlShaded>
       </div>
     </Container>
