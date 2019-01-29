@@ -111,3 +111,42 @@ import Morphology from 'slides/Morphology';
 import Convolution from './slides/Convolution';
 
 <Convolution src="assets/lenna_small.png" baseWidth={384} baseHeight={384} />
+
+---
+
+# Edge thinning
+
+
+kernel example:
+
+```
+0 0 0
+  1  
+1 1 1
+```
+
+```
+1 1 1
+0 0 0
+0 0 0
+```
+
+AND
+
+```
+0 0 0
+0 1 0
+1 1 1
+```
+
+Hit and miss:
+  - convolve BG 
+  - thresh BG
+  - convolve FG
+  - thresh FG
+  - &&
+
+---
+import Thinning from './slides/Thinning';
+
+<Thinning src="assets/dark_windows_eq.jpg" baseWidth={384} baseHeight={384} />
