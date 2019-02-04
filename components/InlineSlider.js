@@ -3,10 +3,10 @@
  */
 import {clamp} from 'ramda';
 import React, {memo, useState, useRef, useEffect} from 'react';
-import {identity} from 'rxjs';
 import styled from 'styled-components';
 
 const noop = () => {};
+const identity = x => x;
 
 export default memo(
   ({
