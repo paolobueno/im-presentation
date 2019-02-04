@@ -1,16 +1,15 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
-import Code from 'mdx-deck/dist/Code';
 import ImgFilter from '../components/ImgFilter';
 import {renderToStaticMarkup} from 'react-dom/server';
+import Code from '../components/Code';
 
 const Selectable = styled.div`
-  border: ${({selected}) => (selected ? 'dotted' : 'none')} 1px;
+  border: ${({selected}) => (selected ? 'dotted' : 'none')} 0.05em;
 `;
 
 const filters = [
   <feComponentTransfer>
-    <feFuncR type="identity" />
     <feFuncG type="discrete" tableValues="0" />
     <feFuncB type="discrete" tableValues="0" />
   </feComponentTransfer>,
@@ -41,9 +40,7 @@ export default ({src}) => {
           </Selectable>
         ))}
       </div>
-      <Code className="language-js">
-        {code}
-      </Code>
+      <Code>{code}</Code>
     </div>
   );
 };

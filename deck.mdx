@@ -16,16 +16,20 @@ import Channels from './slides/Channels';
 
 # What is computer vision?
 
-- Image acquisition 📷
-- **Pre-processing**
-- **Feature extraction**
-- Segmentation
-- Recognition
-- Decision-making
+1. Image acquisition
+1. **Image processing**
+1. Feature extraction
+1. Segmentation/Feature detection
+1. Recognition
+1. Decision-making
 
 ---
 
 # Image acquisition
+
+---
+
+## Camera Filters
 
 <img style={{height: '70vh'}} src="assets/bayer.svg" />
 
@@ -38,10 +42,18 @@ import Channels from './slides/Channels';
 
 ---
 
-# Image display
+# Image representation and display
 
-<img style={{height: '50vh'}} src="assets/rgb.svg" />
-<img style={{height: '50vh'}} src="assets/crt.png" />
+---
+
+<img style={{height: '50vh', margin: '1em'}} src="assets/rgb.svg" />
+<img style={{height: '50vh', margin: '1em'}} src="assets/crt.png" />
+
+---
+
+## Channels
+
+<Channels src="assets/lenna.png" />
 
 ---
 
@@ -63,21 +75,15 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-## Channels
-
-<Channels src="assets/lenna.png" />
-
----
-
 import Grayscaling from 'slides/Grayscaling';
 
-## Grayscaling and Thresholding
+# Grayscaling and Thresholding
 
 <Grayscaling src="assets/dark_windows_eq.jpg" width={600} height={400} />
 
 ---
 
-## Morphology
+# Morphology
 
 ---
 
@@ -114,11 +120,24 @@ import Convolution from './slides/Convolution';
 
 ---
 
-# Segmentation
+# Segmentation/Feature detection
 
 ---
 
-# Recognition
+## Corner detection
+
+<img style={{height: '70vh'}} src="assets/corner.png" />
+
+---
+
+## Segmentation
+
+<img style={{height: '60vh'}} src="assets/segmentation1.png" />
+<img style={{height: '60vh'}} src="assets/segmentation2.png" />
+
+---
+
+# Links
 
 ---
 
