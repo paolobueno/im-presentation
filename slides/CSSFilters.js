@@ -52,7 +52,7 @@ export default () => {
           <Item value="blur(3px)">
             <Button>blur</Button>
           </Item>
-          <Item value="contrast(50)">
+          <Item value="contrast(0.5)">
             <Button>contrast</Button>
           </Item>
           <Item value="grayscale()">
