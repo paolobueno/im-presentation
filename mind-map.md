@@ -1,0 +1,92 @@
+- Web
+  - DOM
+    - video
+    - audio
+    - canvas
+      - ImageData
+  - CSS
+    - filters
+      - linear
+        - contrast
+        - brightness
+        - invert
+        - saturate
+        - grayscale
+        - hue
+        - feComponentTransfer
+      - Alpha/Geometry
+        - opacity
+        - feOffset
+        - feFlood
+        - feTurbulence
+        - feImage
+        - feSpecularLighting
+        - feTile
+        - feDisplacementMap
+      - Compositing
+        - feBlend
+        - feMerge
+      - Convolutional
+        - blur
+        - feGaussianBlur
+        - feConvolveMatrix
+  - Bitmaps
+  - WebGL
+- Computer Vision
+  - Image acquisition
+    - Analog
+      - Film
+        - Grain
+        - Speed
+    - Digital
+      - Filters
+      - Pre-processing
+      - Encoding formats
+    - Lenses
+      - Focal Length
+      - Geometry
+      - Tint
+      - Polarization
+    - Lighting
+      - Spot
+      - Ambient
+      - Reflectors
+  - Representation
+    - Channels
+      - RGB
+      - HSL
+      - CMYK
+      - Alpha
+      - + Left
+      - + Right
+  - Image Processing
+    - Spatial domain
+      - Convolution
+      - Morphology
+    - Frequency domain
+      - Fourier transforms
+      - Band-pass filtering
+        - blur
+        - contrast
+  - Object recognition
+    - Classification
+  - Feature extraction
+    - Feature descriptors
+      - SIFT
+      - ORB
+    - + Speaker recognition
+  - Segmentation
+    - Connected components
+    - Clustering
+    - CNN Deep/Hidden Layers
+  - Object Recognition
+    - Pattern matching
+    - CNN Pooling Layers
+    - Classification
+  - Decision-making
+- Computer Hearing
+  - Speaker recognition
+    - Feature extraction
+  - Denoising
+    - Low-pass filters
+    - 
