@@ -21,6 +21,7 @@
   },
   "dependencies": {
     "@babel/polyfill": "^7.2.5",
+    "d3": "^5.8.2",
     "polished": "^2.3.3",
     "ramda": "^0.26.1",
     "react": "^16.7.0-alpha.2",
