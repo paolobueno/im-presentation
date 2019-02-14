@@ -46,10 +46,10 @@ export default memo(({src, ...props}) => {
   const [thresh, setThresh] = useState(100);
   const [invert, setInvert] = useState(false);
   const [operators, setOperators] = useState({
-    dilate: {operators: ['dilate'], active: false, value: 1},
-    erode: {operators: ['erode'], active: false, value: 1},
-    open: {operators: ['erode', 'dilate'], active: false, value: 1},
-    close: {operators: ['dilate', 'erode'], active: false, value: 1},
+    'Dilate ⊕': {operators: ['dilate'], active: false, value: 1},
+    'Erode ⊖': {operators: ['erode'], active: false, value: 1},
+    'Close ⊖ ∘ ⊕': {operators: ['dilate', 'erode'], active: false, value: 1},
+    'Open ⊕ ∘ ⊖': {operators: ['erode', 'dilate'], active: false, value: 1},
   });
 
   return (
@@ -68,7 +68,12 @@ export default memo(({src, ...props}) => {
         </ImgFilter>
       </div>
       <div style={{display: 'flex', flex: 0.3, flexDirection: 'column'}}>
-        <Activatable onDoubleClick={() => setInvert(!invert)}>
+        <Activatable
+          onDoubleClick={() => {
+            setThresh(255 - thresh);
+            setInvert(!invert);
+          }}
+        >
           <LabelText>Threshold</LabelText>
           <InlineSlider
             value={thresh}
@@ -91,7 +96,9 @@ export default memo(({src, ...props}) => {
             <LabelText>{key}</LabelText>
             <InlineSlider
               value={value}
-              onChange={v => setOperators(mergeDeepRight(operators, {[key]: {value: v, active}}))}
+              onChange={v =>
+                setOperators(mergeDeepRight(operators, {[key]: {value: v, active: true}}))
+              }
               min={0}
               max={40}
               pixelsPerUnit={40}

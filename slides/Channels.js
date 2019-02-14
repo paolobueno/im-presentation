@@ -1,7 +1,6 @@
 import React, {useState} from 'react';
 import styled from 'styled-components';
 import ImgFilter from '../components/ImgFilter';
-import {renderToStaticMarkup} from 'react-dom/server';
 import Code from '../components/Code';
 
 const Selectable = styled.div`
@@ -9,30 +8,52 @@ const Selectable = styled.div`
 `;
 
 const filters = [
-  <feComponentTransfer>
-    <feFuncG type="discrete" tableValues="0" />
-    <feFuncB type="discrete" tableValues="0" />
-  </feComponentTransfer>,
-  <feComponentTransfer>
-    <feFuncR type="discrete" tableValues="0" />
-    <feFuncG type="table" tableValues="0 0 1" />
-    <feFuncB type="discrete" tableValues="0" />
-  </feComponentTransfer>,
-  <feComponentTransfer>
-    <feFuncR type="discrete" tableValues="0" />
-    <feFuncG type="discrete" tableValues="0" />
-    <feFuncB type="discrete" tableValues="0 1 1 1" />
-  </feComponentTransfer>,
+  {
+    filter: (
+      <feComponentTransfer>
+        <feFuncG type="discrete" tableValues="0" />
+        <feFuncB type="discrete" tableValues="0" />
+      </feComponentTransfer>
+    ),
+    code: `<feComponentTransfer>
+  <feFuncG type="discrete" tableValues="0" />
+  <feFuncB type="discrete" tableValues="0" />
+</feComponentTransfer>`,
+  },
+  {
+    filter: (
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0" />
+        <feFuncG type="table" tableValues="0 0 1" />
+        <feFuncB type="discrete" tableValues="0" />
+      </feComponentTransfer>
+    ),
+    code: `//...
+  // linear interpolation: 66% => 0; 100% => 1
+  <feFuncG type="table" tableValues="0 0 1" />`,
+  },
+  {
+    filter: (
+      <feComponentTransfer>
+        <feFuncR type="discrete" tableValues="0" />
+        <feFuncG type="discrete" tableValues="0" />
+        <feFuncB type="discrete" tableValues="0 1 1 1" />
+      </feComponentTransfer>
+    ),
+    code: `//...
+  // discrete: black up to 25%; else white
+  <feFuncB type="discrete" tableValues="0 1 1 1" />`,
+  },
 ];
 
 export default ({src}) => {
   const [selected, setSelected] = useState(0);
-  const code = renderToStaticMarkup(filters[selected]).replace(/>/g, '>\n');
+  const code = filters[selected].code;
 
   return (
     <div style={{display: 'flex', flexDirection: 'column'}}>
       <div style={{display: 'flex', height: '40vh'}}>
-        {filters.map((filter, idx) => (
+        {filters.map(({filter}, idx) => (
           <Selectable key={idx} onClick={() => setSelected(idx)} selected={selected === idx}>
             <ImgFilter style={{height: '100%', width: 'auto'}} src={src}>
               {filter}
@@ -40,7 +61,8 @@ export default ({src}) => {
           </Selectable>
         ))}
       </div>
-      <Code>{code}</Code>
+      {/* 256px is to match the tallest 4 lines, empirical */}
+      <Code customStyle={{minHeight: '256px'}}>{code}</Code>
     </div>
   );
 };

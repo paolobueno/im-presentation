@@ -12,6 +12,8 @@ const Layout = styled.div`
   grid-row-gap: 0.5em;
 `;
 
+const rectStyle = {fill: 'none', stroke: 'red', strokeWidth: '3px'};
+
 export default ({src, baseSize = 600}) => {
   const cnv = useRef(null);
   const imgRef = useRef(null);
@@ -30,7 +32,9 @@ export default ({src, baseSize = 600}) => {
   const pixelCode =
     mouseCoords &&
     `const {data, width} = canvas.getContext('2d').getImageData();
-data[${pixelY}/*y*/ * width + ${pixelX}/*x*/] === ${pixels[pixelY * width + pixelX]};`;
+data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
+  pixels[pixelY * width + pixelX]
+};`;
 
   useEffect(
     function drawDestCanvas() {
@@ -66,6 +70,15 @@ data[${pixelY}/*y*/ * width + ${pixelX}/*x*/] === ${pixels[pixelY * width + pixe
     [pixels, width, height],
   );
 
+  const rect = (
+    <rect width={pxWidth + 2} height={pxHeight + 2} x={rectX - 1} y={rectY - 1} style={rectStyle} />
+  );
+  const svgOverlay = (
+    <svg width={baseSize} height={baseSize} style={{position: 'absolute'}}>
+      {mouseCoords && rect}
+    </svg>
+  );
+
   return (
     <Layout>
       <div
@@ -79,34 +92,14 @@ data[${pixelY}/*y*/ * width + ${pixelX}/*x*/] === ${pixels[pixelY * width + pixe
           style={{imageRendering: 'pixelated', position: 'absolute'}}
           src={src}
         />
-        <svg width={baseSize} height={baseSize} style={{position: 'absolute'}}>
-          {mouseCoords && (
-            <rect
-              width={pxWidth}
-              height={pxHeight}
-              x={rectX}
-              y={rectY}
-              style={{fill: 'none', stroke: 'red'}}
-            />
-          )}
-        </svg>
+        {svgOverlay}
       </div>
       <div
         style={{width: baseSize, height: baseSize, gridArea: 'dest'}}
         onMouseMove={e => setMouseCoords(getClickCoords(e))}
       >
         <canvas ref={cnv} width={baseSize} height={baseSize} style={{position: 'absolute'}} />
-        <svg width={baseSize} height={baseSize} style={{position: 'absolute'}}>
-          {mouseCoords && (
-            <rect
-              width={pxWidth}
-              height={pxHeight}
-              x={rectX}
-              y={rectY}
-              style={{fill: 'none', stroke: 'red'}}
-            />
-          )}
-        </svg>
+        {svgOverlay}
       </div>
 
       <Code customStyle={{gridArea: 'fn'}}>{pixelCode}</Code>

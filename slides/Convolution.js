@@ -5,10 +5,13 @@ import InlineSlider from '../components/InlineSlider';
 import {loadImage} from '../hooks';
 import {discretize, getClickCoords} from '../utils';
 
+const threeByThree = [[-1, -1], [0, -1], [1, -1], [-1, 0], [0, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
+const rectStyle = {fill: 'none', stroke: 'red', strokeWidth: '3px'};
+
 const P = styled.p`
   margin: 0.2em;
   text-align: center;
-  font-size: 0.75em;
+  font-size: 2.5em;
 `;
 
 const Container = styled.div`
@@ -77,10 +80,16 @@ const kernels = {
   'Sobel Vertical': [-1, -2, -1, 0, 0, 0, 1, 2, 1],
   'Emboss (diagonal)': [-2, -1, 0, -1, 0, 1, 0, 1, 2],
 };
+const defaultKernel = kernels['Box Blur'];
 
 export default memo(({src, baseWidth, baseHeight}) => {
-  const [kernel, setKernel] = useState([1, 1, 1, 1, 5, 1, 1, 1, 1]);
+  const [kernel, setKernelState] = useState(defaultKernel);
   const [mouseCoords, setMouseCoords] = useState(null);
+  const [divisor, setDivisor] = useState(sum(defaultKernel));
+  const setKernel = k => {
+    setDivisor(sum(k) || 1);
+    setKernelState(k);
+  };
 
   const setKernelAt = i => v => {
     const k = [...kernel];
@@ -102,18 +111,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
   const clampY = clamp(0, height);
 
   const getPx = (x, y) => (ready ? imageData.data[y * width * 4 + x * 4] : 0);
-  const divisor = sum(kernel) || 1;
-  const targetPixels = [
-    [-1, -1],
-    [0, -1],
-    [1, -1],
-    [-1, 0],
-    [0, 0],
-    [1, 0],
-    [-1, 1],
-    [0, 1],
-    [1, 1],
-  ].map(([x, y]) => getPx(clampX(x + pixelX), clampY(y + pixelY)));
+  const targetPixels = threeByThree.map(([x, y]) => getPx(clampX(x + pixelX), clampY(y + pixelY)));
 
   const cnv = useRef(null);
   useEffect(
@@ -123,7 +121,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
       }
       drawWithFilter(imageData, cnv.current, `grayscale() url(#${filterId})`);
     },
-    [src, kernel, ready, cnv.current],
+    [src, kernel, divisor, ready, cnv.current],
   );
 
   return (
@@ -134,6 +132,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
             kernelMatrix={kernel.join(' ')}
             preserveAlpha="true"
             edgeMode="duplicate"
+            divisor={divisor}
           />
         </filter>
       </svg>
@@ -155,7 +154,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
               height={pxHeight * 3}
               x={rectX - pxWidth}
               y={rectY - pxHeight}
-              style={{fill: 'none', stroke: 'red', strokeDasharray: '4'}}
+              style={{...rectStyle, strokeDasharray: '4'}}
             />
           )}
         </svg>
@@ -172,13 +171,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
         <canvas ref={cnv} width={baseWidth} height={baseHeight} style={{position: 'absolute'}} />
         <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
           {mouseCoords && (
-            <rect
-              width={pxWidth}
-              height={pxHeight}
-              x={rectX}
-              y={rectY}
-              style={{fill: 'none', stroke: 'red'}}
-            />
+            <rect width={pxWidth} height={pxHeight} x={rectX} y={rectY} style={rectStyle} />
           )}
         </svg>
       </div>
@@ -221,7 +214,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
           {targetPixels && targetPixels.map((v, i) => <BlShaded key={i}>{v}</BlShaded>)}
         </BlocksContainer>
         <P>÷</P>
-        <Bl>{divisor}</Bl>
+        <InlineSlider Component={Bl} min={0.5} max={50} onChange={setDivisor} value={divisor} />
         <P>=</P>
         <BlShaded>
           {Math.round(sum(zipWith(multiply, [...kernel].reverse(), targetPixels)) / divisor)}
