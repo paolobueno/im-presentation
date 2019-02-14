@@ -1,7 +1,7 @@
 import React, {useRef, useEffect} from 'react';
 import * as d3 from 'd3';
 
-const width = 900;
+const width = 1200;
 const colors = {
   svg: '#00B8A7',
   css: '#FDB300',
@@ -16,9 +16,20 @@ const mindMap = {
     {
       name: 'Image Processing',
       children: [
+        {name: 'Pre-processing', class: 'ai'},
         {
           name: 'Spatial',
           children: [
+            {
+              name: 'Transform',
+              children: [
+                {name: 'translate', class: 'css'},
+                {name: 'rotate', class: 'css'},
+                {name: 'scale', class: 'css'},
+                {name: 'shear', class: 'css'},
+                {name: 'feOffset', class: 'svg'},
+              ],
+            },
             {
               name: 'Linear',
               children: [
@@ -92,23 +103,27 @@ const mindMap = {
     {
       name: 'Feature Extraction',
       children: [
+        {name: 'Dimensionality Reduction', class: 'ai'},
+        {name: 'Connected components'},
+        {name: 'CNN hidden layers', class: 'ai'},
         {
           name: 'Descriptors',
-          children: [{name: 'SIFT'}, {name: 'ORB'}, {name: 'MFCC', class: 'audio'}],
+          children: [{name: 'SIFT'}, {name: 'SURF'}, {name: 'MFCC', class: 'audio'}],
         },
         {name: 'Edges', children: [{name: 'Sobel'}, {name: 'Canny'}]},
         {name: 'Corners', children: [{name: 'Harris'}, {name: 'SUSAN'}]},
-        {name: 'Connected components'},
-        {name: 'CNN hidden layers', class: 'ai'},
       ],
     },
     {
       name: 'Recognition',
       children: [
+        {name: 'Classification', class: 'ai'},
         {
-          name: 'Classification',
-          children: [{name: 'Template matching'}, {name: 'CNN Pooling layers', class: 'ai'}],
-          class: 'ai',
+          children: [
+            {name: 'Template matching'},
+            {name: 'Feature matching'},
+            {name: 'CNN Pooling layers', class: 'ai'},
+          ],
         },
         {
           name: 'Clustering',
