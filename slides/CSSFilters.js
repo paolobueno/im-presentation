@@ -17,6 +17,7 @@ const Showcase = styled.div`
   align-items: center;
   border: 1px solid black;
   background-color: #ffb400;
+  transition: all ease-in-out 0.3s;
 `;
 
 const Ball = styled.div`

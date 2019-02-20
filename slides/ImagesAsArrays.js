@@ -31,10 +31,10 @@ export default ({src, baseSize = 600}) => {
   const pixelY = Math.ceil(rectY / pxHeight);
   const pixelCode =
     mouseCoords &&
-    `const {data, width} = canvas.getContext('2d').getImageData();
+    `const {data, width} = canvas.getContext('2d').getImageData()
 data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
   pixels[pixelY * width + pixelX]
-};`;
+}`;
 
   useEffect(
     function drawDestCanvas() {

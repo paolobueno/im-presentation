@@ -1,7 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import * as d3 from 'd3';
 
-const width = 1200;
 const colors = {
   svg: '#00B8A7',
   css: '#FDB300',
@@ -10,135 +9,10 @@ const colors = {
   other: 'black',
 };
 
-const mindMap = {
-  name: 'Computer Vision',
-  children: [
-    {
-      name: 'Image Processing',
-      children: [
-        {name: 'Pre-processing', class: 'ai'},
-        {
-          name: 'Spatial',
-          children: [
-            {
-              name: 'Transform',
-              children: [
-                {name: 'translate', class: 'css'},
-                {name: 'rotate', class: 'css'},
-                {name: 'scale', class: 'css'},
-                {name: 'shear', class: 'css'},
-                {name: 'feOffset', class: 'svg'},
-              ],
-            },
-            {
-              name: 'Linear',
-              children: [
-                {name: 'brightness', class: 'css'},
-                {name: 'saturate', class: 'css'},
-                {name: 'feComponentTransfer', class: 'svg'},
-                {
-                  name: 'Convolutions',
-                  children: [
-                    {
-                      name: 'blur',
-                      class: 'css',
-                    },
-                    {name: 'feGaussianBlur', class: 'svg'},
-                    {name: 'feConvolveMatrix', class: 'svg'},
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'Non-linear',
-              children: [
-                {name: 'median'},
-                {name: 'bilateral'},
-                {name: 'Thresholding', children: [{name: 'feComponentTransfer', class: 'svg'}]},
-                {
-                  name: 'Morphology',
-                  children: [
-                    {name: 'feMorphology', class: 'svg'},
-                    {name: 'Dilation', class: 'svg'},
-                    {name: 'Erosion', class: 'svg'},
-                    {name: 'Opening'},
-                    {name: 'Closing'},
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'Multi-channel',
-              children: [
-                {name: 'grayscaling', class: 'css'},
-                {name: 'hue-rotate', class: 'css'},
-                {name: 'feColorMatrix', class: 'svg'},
-                {
-                  name: 'Mixing',
-                  class: 'audio',
-                  children: [
-                    {name: 'feBlend', class: 'svg'},
-                    {name: 'normal'},
-                    {name: 'multiply'},
-                    {name: 'screen'},
-                    {name: 'darken'},
-                    {name: 'lighten'},
-                  ],
-                },
-              ],
-            },
-          ],
-        },
-        {
-          name: 'Frequency',
-          children: [
-            {name: 'Fourier Transform'},
-            {name: 'High-pass', class: 'audio', children: [{name: 'contrast', class: 'css'}]},
-            {name: 'Low-pass', class: 'audio', children: [{name: 'blur', class: 'css'}]},
-            {name: 'Phase', class: 'audio', children: [{name: 'invert', class: 'css'}]},
-          ],
-        },
-      ],
-    },
-    {
-      name: 'Feature Extraction',
-      children: [
-        {name: 'Dimensionality Reduction', class: 'ai'},
-        {name: 'Connected components'},
-        {name: 'CNN hidden layers', class: 'ai'},
-        {
-          name: 'Descriptors',
-          children: [{name: 'SIFT'}, {name: 'SURF'}, {name: 'MFCC', class: 'audio'}],
-        },
-        {name: 'Edges', children: [{name: 'Sobel'}, {name: 'Canny'}]},
-        {name: 'Corners', children: [{name: 'Harris'}, {name: 'SUSAN'}]},
-      ],
-    },
-    {
-      name: 'Recognition',
-      children: [
-        {name: 'Classification', class: 'ai'},
-        {
-          children: [
-            {name: 'Template matching'},
-            {name: 'Feature matching'},
-            {name: 'CNN Pooling layers', class: 'ai'},
-          ],
-        },
-        {
-          name: 'Clustering',
-          children: [{name: 'k-means', class: 'ai'}, {name: 'Linde-Buzo-Gray', class: 'audio'}],
-          class: 'ai',
-        },
-      ],
-    },
-  ],
-};
-
-const tree = data =>
+const tree = (data, width, height) =>
   d3
   .tree()
-  .size([width, width])
+  .size([height, width])
   .separation((a, b) => (a.parent === b.parent ? 1 : 2) / a.depth)(d3.hierarchy(data));
 
 const autosize = svg => {
@@ -147,9 +21,7 @@ const autosize = svg => {
   return svg;
 };
 
-const setupTree = container => {
-  const root = tree(mindMap);
-
+const setupTree = (root, container) => {
   const svg = d3
   .select(container)
   .style('width', '100%')
@@ -207,12 +79,13 @@ const setupTree = container => {
   autosize(svg.node());
 };
 
-export default () => {
+export default ({map, width = 1200, height = 1200}) => {
   const svgRef = useRef(null);
   useEffect(() => {
     if (svgRef.current) {
-      setupTree(svgRef.current);
+      const root = tree(map, width, height);
+      setupTree(root, svgRef.current);
     }
-  }, [svgRef.current]);
-  return <svg ref={svgRef} width={width} height={width} />;
+  }, [svgRef.current, map]);
+  return <svg ref={svgRef} width={width} height={height} />;
 };

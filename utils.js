@@ -4,8 +4,11 @@ export const minOf = arr => arr.reduce(min, Infinity);
 export const maxOf = arr => arr.reduce(max, 0);
 
 export const getClickCoords = e => {
-  const {left, top} = e.target.getBoundingClientRect();
-  return [Math.round(e.clientX - left), Math.round(e.pageY - top)];
+  // currentTarget = original react component
+  // e.target can be a child
+  const {left, top} = e.currentTarget.getBoundingClientRect();
+  const res = [Math.round(e.clientX - left), Math.round(e.clientY - top)];
+  return res;
 };
 
 export const discretize = (length, steps) => n => {

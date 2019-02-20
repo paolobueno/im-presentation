@@ -4,6 +4,8 @@ export {default as theme} from './theme';
 import {Head, Appear} from 'mdx-deck';
 import ImagesAsFunctions from './slides/ImagesAsFunctions';
 import Channels from './slides/Channels';
+import MindMap from './slides/MindMap';
+import {default as fullMindMap, shallow, ImageProcessing, SpatialImageProcessing} from './mindMap.js';
 
 <Head>
   <title>Computer vision basics on the Web</title>
@@ -14,21 +16,15 @@ import Channels from './slides/Channels';
 
 ---
 
-import MindMap from './slides/MindMap';
+Computer vision is a great intro to AI and ML
 
-<MindMap />
-
----
-
-### presentation-only mindmap
+Explore newer Web APIs
 
 ---
 
 # Web technology primer
 
-CSS Filters
-
-SVG Filters
+- Filters!
 
 ---
 
@@ -41,6 +37,28 @@ import CSSFilters from './slides/CSSFilters';
 ---
 
 ## SVG filters
+
+<a href="https://yoksel.github.io/svg-filters/#/" target="_blank">
+  <img width="900px" src="assets/svgFilters.png" />
+</a>
+
+---
+
+# Computer vision
+1. **Image Processing**
+1. Feature Extraction
+1. Recognition
+
+---
+
+# Machine Learning
+1. **Pre-processing**
+1. Dimensionality Reduction
+1. Classification/Clustering
+
+---
+
+<MindMap map={fullMindMap} width={1300} height={1000} />
 
 ---
 
@@ -72,17 +90,28 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
+<MindMap map={SpatialImageProcessing} width={900} height={800} />
+
+---
+
+import Convolution from './slides/Convolution';
+
+## Convolution
+
+<Convolution src="assets/cameraman.png" baseWidth={384} baseHeight={384} />
+
+
+---
+
 import Grayscaling from 'slides/Grayscaling';
 
-# Grayscaling and Thresholding
+## Grayscaling and Thresholding
 
 <Grayscaling src="assets/dark_windows_eq.jpg" width={600} height={400} />
 
 ---
 
-# Morphology
-
----
+## Morphology
 
 <div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '0.3em'}}>
   <div>
@@ -111,13 +140,23 @@ import Morphology from 'slides/Morphology';
 
 ---
 
-import Convolution from './slides/Convolution';
+# Feature Extraction
 
-<Convolution src="assets/lenna_small.png" baseWidth={384} baseHeight={384} />
+<Appear>
+<p>"Are these pixels showing a church?"</p>
+<p>"Is something square with a pointy end, a church?"</p>
+</Appear>
 
 ---
 
-# Feature detection
+<MindMap map={fullMindMap.children[1]} width={800} height={700} />
+
+---
+
+## Connected Components
+
+<img style={{height: '60vh'}} src="assets/segmentation1.png" />
+<img style={{height: '60vh'}} src="assets/segmentation2.png" />
 
 ---
 
@@ -127,23 +166,30 @@ import Convolution from './slides/Convolution';
 
 ---
 
-## Segmentation
+## Feature descriptors
 
-<img style={{height: '60vh'}} src="assets/segmentation1.png" />
-<img style={{height: '60vh'}} src="assets/segmentation2.png" />
-
----
-
-# Links
+- "Describe" objects so they can be recognized
+- Invariance to scale, rotation, perspective...
 
 ---
 
-## More Image processing
+## Feature descriptors
+
+
+
+---
+
+# Thank you!
+
+---
+
+## More Image Processing
 
 - [Image and video processing @ Coursera](https://www.coursera.org/learn/image-processing)
 - [OpenCV](https://opencv.org/)
 - [MDN Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 - [SVG Filters Playground](https://yoksel.github.io/svg-filters/)
+- [JuliaImages](https://juliaimages.org/latest/)
 
 ---
 
@@ -158,4 +204,14 @@ import Convolution from './slides/Convolution';
 
 ---
 
-## References
+Segmentation example © [Cyrille Rossant @ IPython Cookbook](https://ipython-books.github.io/113-segmenting-an-image/)
+
+Image pyramid image © [opencv dev team](https://docs.opencv.org/4.0.1/d4/d1f/tutorial_pyramids.html)
+
+Mercado De La Boqueria, Barcelona, Spain [on unsplash](https://unsplash.com/photos/-gOUx23DNks)
+
+Buiding image, Xue Sheng Xi Lu, Shenzhen Shi, China [on unsplash](https://unsplash.com/photos/sKKuyRyiy6k)
+
+Template matching example © [scikit-image team](http://scikit-image.org/docs/dev/auto_examples/features_detection/plot_template.html)
+
+This presentation © Paolo Bueno, CC BY 4.0

@@ -1,16 +1,18 @@
 import React, {useEffect, useRef, useState} from 'react';
 import {getClickCoords} from '../utils';
 
+const lineThickness = 3;
+
 const Line = ({top, left, vertical}) => (
   <div
     style={{
-      width: vertical ? 1 : '100%',
-      height: vertical ? '100%' : 1,
+      width: vertical ? lineThickness : '100%',
+      height: vertical ? '100%' : lineThickness,
       backgroundColor: 'magenta',
       position: 'absolute',
       display: 'inline',
-      top: vertical ? 0 : top,
-      left: vertical ? left : 0,
+      top: vertical ? 0 : top - 1,
+      left: vertical ? left - 1 : 0,
       transition: 'all, 0.3s',
       zIndex: 10,
     }}
