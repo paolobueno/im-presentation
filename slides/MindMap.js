@@ -67,6 +67,7 @@ const setupTree = (root, container) => {
   node
   .append('text')
   .attr('dy', '0.31em')
+  .style('font-size', d => 3 / (d.depth + 1) + 'em')
   .attr('x', d => (d.children ? -6 : 6))
   .attr('text-anchor', d => (d.children ? 'end' : 'start'))
   .attr('fill', d => colors[d.data.class] || colors.other)
