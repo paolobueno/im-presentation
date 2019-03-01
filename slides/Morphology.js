@@ -16,9 +16,9 @@ const Activatable = styled.label`
 `;
 
 const LabelText = styled.span`
-  font-size: small;
+  font-size: 0.75em;
   line-height: 0.5;
-  color: ${({theme}) => lighten(0.5, theme.colors.text)};
+  color: ${({theme}) => lighten(0.2, theme.colors.text)};
 `;
 
 const Slider = styled.p`
@@ -54,6 +54,7 @@ export default memo(({src, ...props}) => {
 
   return (
     <div {...props} style={{...props.style, display: 'flex'}}>
+      <img src={src} height="60px" style={{margin: '0.2em'}} />
       <div style={{flex: 1}}>
         <ImgFilter style={{width: 'auto', height: '100%'}} src={src} cssPre="grayScale()">
           {invert ? (
@@ -81,7 +82,7 @@ export default memo(({src, ...props}) => {
             max={255}
             onChange={setThresh}
             Component={Slider}
-            format={x => (invert ? `${x} (inverted)` : x)}
+            format={x => (invert ? `${x} (inv)` : x)}
           />
         </Activatable>
 

@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components';
 import Code from '../components/Code';
 import {Item, Toggler} from '../components/Toggler';
+import {themeProp} from '../utils';
 
 const rainbow = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
 
@@ -18,6 +19,7 @@ const Showcase = styled.div`
   border: 1px solid black;
   background-color: #ffb400;
   transition: all ease-in-out 0.3s;
+  margin-bottom: 1em;
 `;
 
 const Ball = styled.div`
@@ -30,8 +32,9 @@ const Ball = styled.div`
 
 const innerShadow = 'inset 0 0 10px black';
 const Button = styled.div`
+  font-family: ${themeProp('monospace')};
   border-radius: 5px;
-  padding: 0.2em;
+  padding: 0.4em;
   background-color: ${({active}) => (active ? '#00b8a7' : '#ffb400')};
   box-shadow: ${({active}) => (active ? innerShadow : 'none')};
   transition: all ease-in-out 0.3s;
@@ -47,8 +50,16 @@ export default () => {
         <Ball bg="green" />
         <Ball style={{background: rainbow}} />
         Hello
+        <i className="fas fa-globe-americas" style={{color: 'blue'}} />
       </Showcase>
-      <div style={{display: 'flex', justifyContent: 'space-evenly', padding: '0.3em'}}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-evenly',
+          padding: '0.3em',
+          marginBottom: '1em',
+        }}
+      >
         <Toggler onChange={arr => setFilter(arr.join(' '))}>
           <Item value="blur(3px)">
             <Button>blur</Button>
@@ -56,11 +67,11 @@ export default () => {
           <Item value="contrast(0.5)">
             <Button>contrast</Button>
           </Item>
-          <Item value="grayscale()">
-            <Button>grayscale</Button>
-          </Item>
           <Item value="hue-rotate(90deg)">
             <Button>hue-rotate</Button>
+          </Item>
+          <Item value="grayscale()">
+            <Button>grayscale</Button>
           </Item>
         </Toggler>
       </div>

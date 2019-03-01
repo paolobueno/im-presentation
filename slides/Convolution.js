@@ -34,7 +34,7 @@ const BlocksContainer = styled.div`
 `;
 const Bl = styled.div`
   border: 1px solid black;
-  font-size: 0.5em;
+  font-size: 0.75em;
   height: 3em;
   width: 3em;
   text-align: center;
@@ -49,6 +49,7 @@ const BlShaded = ({children, style, ...props}) => (
     style={{
       backgroundColor: `rgb(${children}, ${children}, ${children})`,
       color: children > 128 ? 'black' : 'white',
+      transition: 'all 0.4s',
       ...style,
     }}
   >

@@ -1,4 +1,4 @@
-import {max, min} from 'ramda';
+import {max, min, path} from 'ramda';
 
 export const minOf = arr => arr.reduce(min, Infinity);
 export const maxOf = arr => arr.reduce(max, 0);
@@ -16,3 +16,5 @@ export const discretize = (length, steps) => n => {
   const step = Math.floor(n / stepSize);
   return stepSize * step;
 };
+
+export const themeProp = p => path(['theme', p]);

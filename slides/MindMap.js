@@ -1,5 +1,6 @@
 import React, {useRef, useEffect} from 'react';
 import * as d3 from 'd3';
+import {max} from 'ramda';
 
 const colors = {
   svg: '#00B8A7',
@@ -17,7 +18,11 @@ const tree = (data, width, height) =>
 
 const autosize = svg => {
   const box = svg.getBBox();
-  svg.setAttribute('viewBox', `${box.x} ${box.y} ${box.width} ${box.height}`);
+  svg.setAttribute(
+    'viewBox',
+    `${box.x - box.width * 0.05} ${box.y - box.height * 0.05} ${box.width * 1.1} ${box.height *
+      1.1}`,
+  );
   return svg;
 };
 
@@ -67,7 +72,7 @@ const setupTree = (root, container) => {
   node
   .append('text')
   .attr('dy', '0.31em')
-  .style('font-size', d => 3 / (d.depth + 1) + 'em')
+  .style('font-size', d => max(3.2 / (d.depth + 1), 1) + 'em')
   .attr('x', d => (d.children ? -6 : 6))
   .attr('text-anchor', d => (d.children ? 'end' : 'start'))
   .attr('fill', d => colors[d.data.class] || colors.other)
@@ -84,8 +89,7 @@ export default ({map, width = 1200, height = 1200}) => {
   const svgRef = useRef(null);
   useEffect(() => {
     if (svgRef.current) {
-      const root = tree(map, width, height);
-      setupTree(root, svgRef.current);
+      setupTree(tree(map, width, height), svgRef.current);
     }
   }, [svgRef.current, map]);
   return <svg ref={svgRef} width={width} height={height} />;

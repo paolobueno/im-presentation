@@ -5,26 +5,56 @@ import {Head, Appear} from 'mdx-deck';
 import ImagesAsFunctions from './slides/ImagesAsFunctions';
 import Channels from './slides/Channels';
 import MindMap from './slides/MindMap';
-import {default as fullMindMap, shallow, ImageProcessing, SpatialImageProcessing} from './mindMap.js';
+import {
+  default as fullMindMap,
+  shallow,
+  ImageProcessing,
+  SpatialImageProcessing,
+} from './mindMap.js';
+import {P, A, LI} from 'components/basic';
 
 <Head>
   <title>Computer vision basics on the Web</title>
-  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css?family=Roboto+Slab"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+    integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+    crossOrigin="anonymous"
+  />
 </Head>
 
 # Computer&nbsp;vision basics on&nbsp;the&nbsp;Web
 
+<div style={{textAlign: 'right'}}>
+  <small>by Paolo Bueno</small>
+  <br />
+  <A href="http://linkedin.com/in/paolobueno">
+    <i className="fab fa-linkedin" />
+  </A>{' '}
+  <A href="https://github.com/paolobueno">
+    <i className="fab fa-github" />
+  </A>
+</div>
+
 ---
 
-Computer vision is a great intro to AI and ML
+# Why?
 
-Explore newer Web APIs
+<Appear>
+  <P>I learned it before</P>
+  <P>Explore newer Web APIs</P>
+  <P>Computer vision is a great intro to AI and ML</P>
+</Appear>
 
 ---
 
 # Web technology primer
 
-- Filters!
+<Appear>Filters!</Appear>
 
 ---
 
@@ -45,16 +75,28 @@ import CSSFilters from './slides/CSSFilters';
 ---
 
 # Computer vision
-1. **Image Processing**
-1. Feature Extraction
-1. Recognition
+
+<ol>
+  <Appear>
+    <LI>
+      <b>Image Processing</b>
+    </LI>
+    <LI>Feature Extraction</LI>
+    <LI>Recognition</LI>
+  </Appear>
+</ol>
 
 ---
 
 # Machine Learning
-1. **Pre-processing**
-1. Dimensionality Reduction
-1. Classification/Clustering
+
+<ol>
+  <LI>
+    <b>Pre-processing</b>
+  </LI>
+  <LI>Dimensionality Reduction</LI>
+  <LI>Classification/Clustering</LI>
+</ol>
 
 ---
 
@@ -80,7 +122,7 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-## Images are functions of space
+## Images are contiguous functions of space
 
 <ImagesAsFunctions />
 
@@ -90,7 +132,13 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-<MindMap map={SpatialImageProcessing} width={900} height={800} />
+<MindMap map={SpatialImageProcessing} width={1200} height={800} />
+
+---
+
+## Convolution
+
+<img src="assets/convolution.gif" />
 
 ---
 
@@ -100,20 +148,25 @@ import Convolution from './slides/Convolution';
 
 <Convolution src="assets/cameraman.png" baseWidth={384} baseHeight={384} />
 
-
 ---
 
 import Grayscaling from 'slides/Grayscaling';
 
 ## Grayscaling and Thresholding
 
-<Grayscaling src="assets/dark_windows_eq.jpg" width={600} height={400} />
+<Grayscaling src="assets/segmentation1.png" width={600} height={400} />
 
 ---
 
 ## Morphology
 
-<div style={{display: 'grid', gridTemplateColumns: '1fr 1fr', gridColumnGap: '0.3em'}}>
+<div
+  style={{
+    display: 'grid',
+    gridTemplateColumns: '1fr 1fr',
+    gridColumnGap: '0.3em',
+  }}
+>
   <div>
     <p>Erosion ⊖</p>
     <img src="assets/erosion.png" height="250" />
@@ -134,17 +187,22 @@ import Grayscaling from 'slides/Grayscaling';
 
 ---
 
+## Morphology
+
 import Morphology from 'slides/Morphology';
 
-<Morphology src="assets/dark_windows_eq.jpg" style={{width: '60vw', height: '60vh'}} />
+<Morphology
+  src="assets/dark_windows_eq.jpg"
+  style={{width: '60vw', height: '60vh'}}
+/>
 
 ---
 
 # Feature Extraction
 
 <Appear>
-<p>"Are these pixels showing a church?"</p>
-<p>"Is something square with a pointy end, a church?"</p>
+  <P>"Are these pixels showing a church?"</P>
+  <P>"Is something square with a pointy end, a church?"</P>
 </Appear>
 
 ---
@@ -168,14 +226,15 @@ import Morphology from 'slides/Morphology';
 
 ## Feature descriptors
 
-- "Describe" objects so they can be recognized
-- Invariance to scale, rotation, perspective...
+"Describe" objects so they can be recognized
+
+Invariance to scale, rotation, perspective...
 
 ---
 
 ## Feature descriptors
 
-
+<img style={{height: '60vh'}} src="assets/descriptor.jpg" />
 
 ---
 
@@ -190,6 +249,7 @@ import Morphology from 'slides/Morphology';
 - [MDN Canvas API](https://developer.mozilla.org/en-US/docs/Web/API/Canvas_API)
 - [SVG Filters Playground](https://yoksel.github.io/svg-filters/)
 - [JuliaImages](https://juliaimages.org/latest/)
+- [GNU Octave - MATLAB as in beer](https://www.gnu.org/software/octave/)
 
 ---
 
@@ -204,14 +264,22 @@ import Morphology from 'slides/Morphology';
 
 ---
 
-Segmentation example © [Cyrille Rossant @ IPython Cookbook](https://ipython-books.github.io/113-segmenting-an-image/)
+Segmentation example ©
+[Cyrille Rossant @ IPython Cookbook](https://ipython-books.github.io/113-segmenting-an-image/)
 
-Image pyramid image © [opencv dev team](https://docs.opencv.org/4.0.1/d4/d1f/tutorial_pyramids.html)
+Image pyramid image ©
+[opencv dev team](https://docs.opencv.org/4.0.1/d4/d1f/tutorial_pyramids.html)
 
-Mercado De La Boqueria, Barcelona, Spain [on unsplash](https://unsplash.com/photos/-gOUx23DNks)
+Convolution animation ©
+[Paul-Louis Prove](https://towardsdatascience.com/types-of-convolutions-in-deep-learning-717013397f4d)
 
-Buiding image, Xue Sheng Xi Lu, Shenzhen Shi, China [on unsplash](https://unsplash.com/photos/sKKuyRyiy6k)
+Mercado De La Boqueria, Barcelona, Spain
+[on unsplash](https://unsplash.com/photos/-gOUx23DNks)
 
-Template matching example © [scikit-image team](http://scikit-image.org/docs/dev/auto_examples/features_detection/plot_template.html)
+Buiding image, Xue Sheng Xi Lu, Shenzhen Shi, China
+[on unsplash](https://unsplash.com/photos/sKKuyRyiy6k)
+
+Template matching example ©
+[scikit-image team](http://scikit-image.org/docs/dev/auto_examples/features_detection/plot_template.html)
 
 This presentation © Paolo Bueno, CC BY 4.0
