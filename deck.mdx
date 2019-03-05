@@ -81,7 +81,7 @@ import CSSFilters from './slides/CSSFilters';
       <b>Image Processing</b>
     </LI>
     <LI>Feature Extraction</LI>
-    <LI>Recognition</LI>
+    <LI style={{color: '#aaa'}}>Recognition</LI>
   </Appear>
 </ol>
 
@@ -94,7 +94,7 @@ import CSSFilters from './slides/CSSFilters';
     <b>Pre-processing</b>
   </LI>
   <LI>Dimensionality Reduction</LI>
-  <LI>Classification/Clustering</LI>
+  <LI style={{color: '#aaa'}}>Classification/Clustering</LI>
 </ol>
 
 ---
@@ -121,7 +121,7 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-## Images are contiguous functions of space
+## Images are (continous) functions of space
 
 <ImagesAsFunctions />
 
@@ -131,11 +131,15 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-<MindMap map={SpatialImageProcessing} width={1200} height={800} />
+<MindMap map={fullMindMap} width={1300} height={1000} />
 
 ---
 
-## Convolution
+<MindMap map={SpatialImageProcessing} width={1200} height={800} minLabelSize={2} />
+
+---
+
+## Convolutions
 
 <img src="assets/convolution.gif" />
 
@@ -143,7 +147,7 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 import Convolution from './slides/Convolution';
 
-## Convolution
+## Convolutions
 
 <Convolution src="assets/cameraman.png" baseWidth={384} baseHeight={384} />
 
