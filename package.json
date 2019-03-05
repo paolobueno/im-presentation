@@ -6,6 +6,7 @@
   "scripts": {
     "start": "mdx-deck deck.mdx",
     "build": "mdx-deck build deck.mdx && cp -r assets/ dist",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint ./*.js components/**/*.js slides/**/*.js"
   },
   "keywords": [],
@@ -18,6 +19,7 @@
     "eslint-config-standard-react": "^7.0.2",
     "eslint-config-warp": "^3.0.0",
     "eslint-plugin-react": "^7.12.4",
+    "gh-pages": "^2.0.1",
     "mdx-deck": "^1.10.0"
   },
   "dependencies": {
