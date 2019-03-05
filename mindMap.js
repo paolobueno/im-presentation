@@ -8,91 +8,73 @@ const mindMap = {
       children: [
         {name: 'Pre-processing', class: 'ai'},
         {
-          name: 'Spatial',
+          name: 'Transform',
           children: [
+            {name: 'translate', class: 'css'},
+            {name: 'rotate', class: 'css'},
+            {name: 'scale', class: 'css'},
+            {name: 'shear', class: 'css'},
+            {name: 'feOffset', class: 'svg'},
+          ],
+        },
+        {
+          name: 'Linear',
+          children: [
+            {name: 'brightness', class: 'css'},
+            {name: 'saturate', class: 'css'},
+            {name: 'feComponentTransfer', class: 'svg'},
             {
-              name: 'Transform',
+              name: 'Convolutions',
               children: [
-                {name: 'translate', class: 'css'},
-                {name: 'rotate', class: 'css'},
-                {name: 'scale', class: 'css'},
-                {name: 'shear', class: 'css'},
-                {name: 'feOffset', class: 'svg'},
-              ],
-            },
-            {
-              name: 'Linear',
-              children: [
-                {name: 'brightness', class: 'css'},
-                {name: 'saturate', class: 'css'},
-                {name: 'feComponentTransfer', class: 'svg'},
                 {
-                  name: 'Convolutions',
-                  children: [
-                    {
-                      name: 'blur',
-                      class: 'css',
-                    },
-                    {name: 'feGaussianBlur', class: 'svg'},
-                    {name: 'feConvolveMatrix', class: 'svg'},
-                  ],
+                  name: 'blur',
+                  class: 'css',
                 },
-              ],
-            },
-            {
-              name: 'Non-linear',
-              children: [
-                {name: 'median'},
-                {name: 'bilateral'},
-                {
-                  name: 'Thresholding',
-                  children: [{name: 'feComponentTransfer', class: 'svg'}],
-                },
-                {
-                  name: 'Morphology',
-                  children: [
-                    {name: 'feMorphology', class: 'svg'},
-                    {name: 'Dilation', class: 'svg'},
-                    {name: 'Erosion', class: 'svg'},
-                    {name: 'Opening'},
-                    {name: 'Closing'},
-                  ],
-                },
-              ],
-            },
-            {
-              name: 'Multi-channel',
-              children: [
-                {name: 'grayscaling', class: 'css'},
-                {name: 'hue-rotate', class: 'css'},
-                {name: 'feColorMatrix', class: 'svg'},
-                {
-                  name: 'Mixing',
-                  class: 'audio',
-                  children: [
-                    {name: 'feBlend', class: 'svg'},
-                    {name: 'normal'},
-                    {name: 'multiply'},
-                    {name: 'screen'},
-                    {name: 'darken'},
-                    {name: 'lighten'},
-                  ],
-                },
+                {name: 'feGaussianBlur', class: 'svg'},
+                {name: 'feConvolveMatrix', class: 'svg'},
               ],
             },
           ],
         },
         {
-          name: 'Frequency',
+          name: 'Non-linear',
           children: [
-            {name: 'Fourier Transform'},
+            {name: 'median'},
+            {name: 'bilateral'},
             {
-              name: 'High-pass',
-              class: 'audio',
-              children: [{name: 'contrast', class: 'css'}],
+              name: 'Thresholding',
+              children: [{name: 'feComponentTransfer', class: 'svg'}],
             },
-            {name: 'Low-pass', class: 'audio', children: [{name: 'blur', class: 'css'}]},
-            {name: 'Phase', class: 'audio', children: [{name: 'invert', class: 'css'}]},
+            {
+              name: 'Morphology',
+              children: [
+                {name: 'feMorphology', class: 'svg'},
+                {name: 'Dilation', class: 'svg'},
+                {name: 'Erosion', class: 'svg'},
+                {name: 'Opening'},
+                {name: 'Closing'},
+              ],
+            },
+          ],
+        },
+        {
+          name: 'Multi-channel',
+          children: [
+            {name: 'grayscaling', class: 'css'},
+            {name: 'hue-rotate', class: 'css'},
+            {name: 'feColorMatrix', class: 'svg'},
+            {
+              name: 'Mixing',
+              class: 'audio',
+              children: [
+                {name: 'feBlend', class: 'svg'},
+                {name: 'normal'},
+                {name: 'multiply'},
+                {name: 'screen'},
+                {name: 'darken'},
+                {name: 'lighten'},
+              ],
+            },
           ],
         },
       ],
@@ -133,8 +115,6 @@ shallow.children.forEach(c => delete c.children);
 
 export const ImageProcessing = mindMap.children[0];
 
-export const SpatialImageProcessing = clone(ImageProcessing.children[1]);
-SpatialImageProcessing.name = 'Spatial Domain';
-SpatialImageProcessing.children.splice(0, 1);
+export const SpatialImageProcessing = ImageProcessing;
 
 export default mindMap;

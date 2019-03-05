@@ -5,12 +5,7 @@ import {Head, Appear} from 'mdx-deck';
 import ImagesAsFunctions from './slides/ImagesAsFunctions';
 import Channels from './slides/Channels';
 import MindMap from './slides/MindMap';
-import {
-  default as fullMindMap,
-  shallow,
-  ImageProcessing,
-  SpatialImageProcessing,
-} from './mindMap.js';
+import {default as fullMindMap, shallow, ImageProcessing} from './mindMap.js';
 import {P, A, LI} from 'components/basic';
 
 <Head>
@@ -131,11 +126,17 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-<MindMap map={fullMindMap} width={1300} height={1000} />
+<MindMap map={fullMindMap} width={1300} height={1000} highlight={'Image Processing'} />
 
 ---
 
-<MindMap map={SpatialImageProcessing} width={1200} height={800} minLabelSize={2} />
+<MindMap
+  map={ImageProcessing}
+  width={1200}
+  height={800}
+  minLabelSize={2}
+  highlight={'Convolutions'}
+/>
 
 ---
 
@@ -153,11 +154,31 @@ import Convolution from './slides/Convolution';
 
 ---
 
+<MindMap
+  map={ImageProcessing}
+  width={1200}
+  height={800}
+  minLabelSize={2}
+  highlight={'Thresholding'}
+/>
+
+---
+
 import Grayscaling from 'slides/Grayscaling';
 
-## Grayscaling and Thresholding
+## Thresholding
 
 <Grayscaling src="assets/segmentation1.png" width={600} height={400} />
+
+---
+
+<MindMap
+  map={ImageProcessing}
+  width={1200}
+  height={800}
+  minLabelSize={2}
+  highlight={'Morphology'}
+/>
 
 ---
 
@@ -195,9 +216,13 @@ import Grayscaling from 'slides/Grayscaling';
 import Morphology from 'slides/Morphology';
 
 <Morphology
-  src="assets/dark_windows_eq.jpg"
+  src="assets/segmentation1.png"
   style={{width: '60vw', height: '60vh'}}
 />
+
+---
+
+<MindMap map={fullMindMap.children[1]} width={800} height={700} />
 
 ---
 
@@ -210,7 +235,9 @@ import Morphology from 'slides/Morphology';
 
 ---
 
-<MindMap map={fullMindMap.children[1]} width={800} height={700} />
+## Feature descriptors
+
+<img style={{height: '60vh'}} src="assets/descriptor.jpg" />
 
 ---
 
@@ -227,21 +254,9 @@ import Morphology from 'slides/Morphology';
 
 ---
 
-## Feature descriptors
-
-"Describe" objects so they can be recognized
-
-Invariance to scale, rotation, perspective...
-
----
-
-## Feature descriptors
-
-<img style={{height: '60vh'}} src="assets/descriptor.jpg" />
-
----
-
 # Thank you!
+
+<MindMap map={fullMindMap} width={750} height={500} minLabelSize={0.5} />
 
 ---
 

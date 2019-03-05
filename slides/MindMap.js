@@ -26,7 +26,7 @@ const autosize = svg => {
   return svg;
 };
 
-const setupTree = (root, minLabelSize, container) => {
+const setupTree = (root, minLabelSize, highlight = '', container) => {
   const svg = d3
   .select(container)
   .style('width', '100%')
@@ -73,6 +73,7 @@ const setupTree = (root, minLabelSize, container) => {
   .append('text')
   .attr('dy', '0.31em')
   .style('font-size', d => max(3.2 / (d.depth + 1), minLabelSize) + 'em')
+  .style('font-weight', d => (d.data.name === highlight ? 'bold' : null))
   .attr('x', d => (d.children ? -6 : 6))
   .attr('text-anchor', d => (d.children ? 'end' : 'start'))
   .attr('fill', d => colors[d.data.class] || colors.other)
@@ -85,11 +86,11 @@ const setupTree = (root, minLabelSize, container) => {
   autosize(svg.node());
 };
 
-export default ({map, width = 1200, height = 1200, minLabelSize = 1.2}) => {
+export default ({map, width = 1200, height = 1200, minLabelSize = 1.2, highlight = ''}) => {
   const svgRef = useRef(null);
   useEffect(() => {
     if (svgRef.current) {
-      setupTree(tree(map, width, height), minLabelSize, svgRef.current);
+      setupTree(tree(map, width, height), minLabelSize, highlight, svgRef.current);
     }
   }, [svgRef.current, map]);
   return <svg ref={svgRef} width={width} height={height} />;
