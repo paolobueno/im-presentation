@@ -7,6 +7,7 @@
     "start": "mdx-deck deck.mdx",
     "build": "mdx-deck build deck.mdx && cp -r assets/ dist",
     "deploy": "gh-pages -d dist",
+    "toc": "cat deck.mdx| grep '^#' | uniq > toc.md",
     "lint": "eslint ./*.js components/**/*.js slides/**/*.js"
   },
   "keywords": [],
