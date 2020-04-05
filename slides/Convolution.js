@@ -1,12 +1,22 @@
-import {mathMod, multiply, sum, zipWith} from 'ramda';
-import React, {memo, useEffect, useRef, useState} from 'react';
-import styled from 'styled-components';
-import InlineSlider from '../components/InlineSlider';
-import {loadImage} from '../hooks';
-import {discretize, getClickCoords} from '../utils';
+import {mathMod, multiply, sum, zipWith} from "ramda";
+import React, {memo, useEffect, useRef, useState} from "react";
+import styled from "styled-components";
+import InlineSlider from "../components/InlineSlider";
+import {useImage} from "../hooks";
+import {discretize, getClickCoords} from "../utils";
 
-const threeByThree = [[-1, -1], [0, -1], [1, -1], [-1, 0], [0, 0], [1, 0], [-1, 1], [0, 1], [1, 1]];
-const rectStyle = {fill: 'none', stroke: 'red', strokeWidth: '3px'};
+const threeByThree = [
+  [-1, -1],
+  [0, -1],
+  [1, -1],
+  [-1, 0],
+  [0, 0],
+  [1, 0],
+  [-1, 1],
+  [0, 1],
+  [1, 1],
+];
+const rectStyle = {fill: "none", stroke: "red", strokeWidth: "3px"};
 
 const P = styled.p`
   margin: 0.2em;
@@ -20,9 +30,9 @@ const Container = styled.div`
   grid-column-gap: 1rem;
   grid-row-gap: 0.5rem;
   grid-template-areas:
-    'source dest'
-    'select sources'
-    'calc calc';
+    "source dest"
+    "select sources"
+    "calc calc";
   justify-items: center;
 `;
 
@@ -48,8 +58,8 @@ const BlShaded = ({children, style, ...props}) => (
     {...props}
     style={{
       backgroundColor: `rgb(${children}, ${children}, ${children})`,
-      color: children > 128 ? 'black' : 'white',
-      transition: 'all 0.4s',
+      color: children > 128 ? "black" : "white",
+      transition: "all 0.4s",
       ...style,
     }}
   >
@@ -57,16 +67,16 @@ const BlShaded = ({children, style, ...props}) => (
   </Bl>
 );
 
-const filterId = 'convolution-filter';
+const filterId = "convolution-filter";
 
 const drawWithFilter = (imageData, canvas, filter) => {
-  const tempCanvas = document.createElement('canvas');
+  const tempCanvas = document.createElement("canvas");
   tempCanvas.width = imageData.width;
   tempCanvas.height = imageData.height;
-  const tempCtx = tempCanvas.getContext('2d');
+  const tempCtx = tempCanvas.getContext("2d");
   tempCtx.filter = filter;
-  const ctx = canvas.getContext('2d');
-  createImageBitmap(imageData).then(bmp => {
+  const ctx = canvas.getContext("2d");
+  createImageBitmap(imageData).then((bmp) => {
     tempCtx.drawImage(bmp, 0, 0);
     ctx.imageSmoothingEnabled = false;
     ctx.drawImage(tempCanvas, 0, 0, canvas.width, canvas.height);
@@ -74,31 +84,31 @@ const drawWithFilter = (imageData, canvas, filter) => {
 };
 
 const kernels = {
-  'Box Blur': [1, 1, 1, 1, 5, 1, 1, 1, 1],
-  'Gaussian Blur': [1, 2, 1, 2, 4, 2, 1, 2, 1],
-  'Sharpen/Laplacian': [0, -1, 0, -1, 4, -1, 0, -1, 0],
-  'Sobel Horizontal': [-1, 0, 1, -2, 0, 2, -1, 0, 1],
-  'Sobel Vertical': [-1, -2, -1, 0, 0, 0, 1, 2, 1],
-  'Emboss (diagonal)': [-2, -1, 0, -1, 0, 1, 0, 1, 2],
+  "Box Blur": [1, 1, 1, 1, 5, 1, 1, 1, 1],
+  "Gaussian Blur": [1, 2, 1, 2, 4, 2, 1, 2, 1],
+  "Sharpen/Laplacian": [0, -1, 0, -1, 4, -1, 0, -1, 0],
+  "Sobel Horizontal": [-1, 0, 1, -2, 0, 2, -1, 0, 1],
+  "Sobel Vertical": [-1, -2, -1, 0, 0, 0, 1, 2, 1],
+  "Emboss (diagonal)": [-2, -1, 0, -1, 0, 1, 0, 1, 2],
 };
-const defaultKernel = kernels['Box Blur'];
+const defaultKernel = kernels["Box Blur"];
 
 export default memo(({src, baseWidth, baseHeight}) => {
   const [kernel, setKernelState] = useState(defaultKernel);
   const [mouseCoords, setMouseCoords] = useState(null);
   const [divisor, setDivisor] = useState(sum(defaultKernel));
-  const setKernel = k => {
+  const setKernel = (k) => {
     setDivisor(sum(k) || 1);
     setKernelState(k);
   };
 
-  const setKernelAt = i => v => {
+  const setKernelAt = (i) => (v) => {
     const k = [...kernel];
     k[i] = v;
     setKernel(k);
   };
 
-  const {imageData, ready, width, height} = loadImage(src);
+  const {imageData, ready, width, height} = useImage(src);
   const pxWidth = baseWidth / width;
   const pxHeight = baseHeight / height;
 
@@ -108,11 +118,13 @@ export default memo(({src, baseWidth, baseHeight}) => {
   const rectY = mouseCoords && getRectY(mouseCoords[1]);
   const pixelX = Math.ceil(rectX / pxWidth);
   const pixelY = Math.ceil(rectY / pxHeight);
-  const modX = x => mathMod(x, width);
-  const modY = y => mathMod(y, height);
+  const modX = (x) => mathMod(x, width);
+  const modY = (y) => mathMod(y, height);
 
   const getPx = (x, y) => (ready ? imageData.data[y * width * 4 + x * 4] : 0);
-  const targetPixels = threeByThree.map(([x, y]) => getPx(modX(x + pixelX), modY(y + pixelY)));
+  const targetPixels = threeByThree.map(([x, y]) =>
+    getPx(modX(x + pixelX), modY(y + pixelY)),
+  );
 
   const cnv = useRef(null);
   useEffect(
@@ -130,7 +142,7 @@ export default memo(({src, baseWidth, baseHeight}) => {
       <svg width="0" height="0">
         <filter id={filterId}>
           <feConvolveMatrix
-            kernelMatrix={kernel.join(' ')}
+            kernelMatrix={kernel.join(" ")}
             preserveAlpha="true"
             edgeMode="wrap"
             divisor={divisor}
@@ -139,23 +151,27 @@ export default memo(({src, baseWidth, baseHeight}) => {
       </svg>
 
       <div
-        style={{width: baseWidth, height: baseHeight, gridArea: 'source'}}
-        onMouseMove={e => setMouseCoords(getClickCoords(e))}
+        style={{width: baseWidth, height: baseHeight, gridArea: "source"}}
+        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
       >
         <img
           src={src}
           width={baseWidth}
           height={baseHeight}
-          style={{imageRendering: 'pixelated', position: 'absolute'}}
+          style={{imageRendering: "pixelated", position: "absolute"}}
         />
-        <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
+        <svg
+          width={baseWidth}
+          height={baseHeight}
+          style={{position: "absolute"}}
+        >
           {mouseCoords && (
             <rect
               width={pxWidth * 3}
               height={pxHeight * 3}
               x={rectX - pxWidth}
               y={rectY - pxHeight}
-              style={{...rectStyle, strokeDasharray: '4'}}
+              style={{...rectStyle, strokeDasharray: "4"}}
             />
           )}
         </svg>
@@ -165,18 +181,36 @@ export default memo(({src, baseWidth, baseHeight}) => {
         style={{
           width: baseWidth,
           height: baseHeight,
-          gridArea: 'dest',
+          gridArea: "dest",
         }}
-        onMouseMove={e => setMouseCoords(getClickCoords(e))}
+        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
       >
-        <canvas ref={cnv} width={baseWidth} height={baseHeight} style={{position: 'absolute'}} />
-        <svg width={baseWidth} height={baseHeight} style={{position: 'absolute'}}>
+        <canvas
+          ref={cnv}
+          width={baseWidth}
+          height={baseHeight}
+          style={{position: "absolute"}}
+        />
+        <svg
+          width={baseWidth}
+          height={baseHeight}
+          style={{position: "absolute"}}
+        >
           {mouseCoords && (
-            <rect width={pxWidth} height={pxHeight} x={rectX} y={rectY} style={rectStyle} />
+            <rect
+              width={pxWidth}
+              height={pxHeight}
+              x={rectX}
+              y={rectY}
+              style={rectStyle}
+            />
           )}
         </svg>
       </div>
-      <select style={{gridArea: 'select'}} onChange={e => setKernel(JSON.parse(e.target.value))}>
+      <select
+        style={{gridArea: "select"}}
+        onChange={(e) => setKernel(JSON.parse(e.target.value))}
+      >
         {Object.entries(kernels).map(([k, v]) => (
           <option key={k} value={JSON.stringify(v)}>
             {k}
@@ -186,12 +220,12 @@ export default memo(({src, baseWidth, baseHeight}) => {
 
       <div
         style={{
-          width: '100%',
-          gridArea: 'calc',
-          display: 'flex',
-          flexDirection: 'row',
-          justifyContent: 'space-evenly',
-          alignItems: 'center',
+          width: "100%",
+          gridArea: "calc",
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "space-evenly",
+          alignItems: "center",
         }}
       >
         <div>
@@ -212,13 +246,23 @@ export default memo(({src, baseWidth, baseHeight}) => {
         </div>
         <P>×</P>
         <BlocksContainer>
-          {targetPixels && targetPixels.map((v, i) => <BlShaded key={i}>{v}</BlShaded>)}
+          {targetPixels &&
+            targetPixels.map((v, i) => <BlShaded key={i}>{v}</BlShaded>)}
         </BlocksContainer>
         <P>÷</P>
-        <InlineSlider Component={Bl} min={0.5} max={50} onChange={setDivisor} value={divisor} />
+        <InlineSlider
+          Component={Bl}
+          min={0.5}
+          max={50}
+          onChange={setDivisor}
+          value={divisor}
+        />
         <P>=</P>
         <BlShaded>
-          {Math.round(sum(zipWith(multiply, [...kernel].reverse(), targetPixels)) / divisor)}
+          {Math.round(
+            sum(zipWith(multiply, [...kernel].reverse(), targetPixels)) /
+              divisor,
+          )}
         </BlShaded>
       </div>
     </Container>

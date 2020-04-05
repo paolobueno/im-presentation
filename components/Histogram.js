@@ -1,18 +1,18 @@
-import {map, toPairs, sortBy, prop, compose, reduce} from 'ramda';
-import React, {useRef, useState, useEffect, memo} from 'react';
-import {ComposedChart, Line, ResponsiveContainer, XAxis} from 'recharts';
-import {loadGrayImage} from '../hooks';
+import {map, toPairs, sortBy, prop, compose, reduce} from "ramda";
+import React, {useRef, useState, useEffect, memo} from "react";
+import {ComposedChart, Line, ResponsiveContainer, XAxis} from "recharts";
+import {useGrayImage} from "../hooks";
 
 const chartHeight = 300;
 
-const hist = arr => {
+const hist = (arr) => {
   const res = {};
-  arr.forEach(x => {
+  arr.forEach((x) => {
     res[x] = res[x] || 0;
     res[x] += 1;
   });
   const data = compose(
-    sortBy(prop('key')),
+    sortBy(prop("key")),
     map(([key, value]) => ({key: Number(key), value})),
     toPairs,
   )(res);
@@ -23,7 +23,11 @@ const otsu = (histogram, total) => {
   let sum0 = 0;
   let p0 = 0;
   let maxVariance = 0;
-  const totalValues = reduce((accum, {key, value}) => accum + key * value, 0, histogram);
+  const totalValues = reduce(
+    (accum, {key, value}) => accum + key * value,
+    0,
+    histogram,
+  );
 
   let otsuLevel = 0;
 
@@ -46,12 +50,12 @@ const otsu = (histogram, total) => {
   return otsuLevel;
 };
 
-export default memo(({onClick, src, style}) => {
+export default memo(function Histogram({onClick, src, style}) {
   const [x, setX] = useState(0);
   const [dragging, setDragging] = useState(false);
   const otsuThresh = useRef(0);
 
-  const {pixels} = loadGrayImage(src, 0.1);
+  const {pixels} = useGrayImage(src, 0.1);
 
   const data = hist(pixels);
   useEffect(
@@ -75,7 +79,7 @@ export default memo(({onClick, src, style}) => {
           ref={chartRef}
           onClick={() => setDragging(!dragging)}
           onMouseLeave={() => setDragging(false)}
-          onMouseMove={e => {
+          onMouseMove={(e) => {
             if (!e || !dragging) {
               return;
             }
@@ -89,7 +93,12 @@ export default memo(({onClick, src, style}) => {
           <Line dataKey="value" dot={false} stroke="red" />
           {x > 0 ? <rect x={x} width={1} height="100%" fill="red" /> : null}
           {otsuThresh.current ? (
-            <rect x={chartWidth * (otsuThresh.current / 255)} width={1} height="100%" fill="blue" />
+            <rect
+              x={chartWidth * (otsuThresh.current / 255)}
+              width={1}
+              height="100%"
+              fill="blue"
+            />
           ) : null}
         </ComposedChart>
       </ResponsiveContainer>

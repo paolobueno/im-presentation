@@ -1,23 +1,23 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {loadGrayImage} from '../hooks';
-import {discretize, getClickCoords} from '../utils';
-import styled from 'styled-components';
-import Code from '../components/Code';
+import React, {useEffect, useRef, useState} from "react";
+import {useGrayImage} from "../hooks";
+import {discretize, getClickCoords} from "../utils";
+import styled from "styled-components";
+import Code from "../components/Code";
 
 const Layout = styled.div`
   display: grid;
   grid-template-areas:
-    'source dest'
-    'fn fn';
+    "source dest"
+    "fn fn";
   grid-row-gap: 0.5em;
 `;
 
-const rectStyle = {fill: 'none', stroke: 'red', strokeWidth: '3px'};
+const rectStyle = {fill: "none", stroke: "red", strokeWidth: "3px"};
 
 export default ({src, baseSize = 600}) => {
   const cnv = useRef(null);
   const imgRef = useRef(null);
-  const {pixels, width, height} = loadGrayImage(src);
+  const {pixels, width, height} = useGrayImage(src);
   const [mouseCoords, setMouseCoords] = useState(null);
   const pxWidth = baseSize / width;
   const pxHeight = baseSize / height;
@@ -33,8 +33,8 @@ export default ({src, baseSize = 600}) => {
     mouseCoords &&
     `const {data, width} = canvas.getContext('2d').getImageData()
 data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
-  pixels[pixelY * width + pixelX]
-}`;
+      pixels[pixelY * width + pixelX]
+    }`;
 
   useEffect(
     function drawDestCanvas() {
@@ -43,13 +43,13 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
         return;
       }
       const fontSize = `${baseSize / (width * 2)}px`;
-      const ctx = canvas.getContext('2d');
+      const ctx = canvas.getContext("2d");
 
-      ctx.font = fontSize + ' monospace';
+      ctx.font = fontSize + " monospace";
 
       // start at half of dimension to vert/horiz align
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
       let x = pxWidth / 2;
       let y = pxHeight / 2;
 
@@ -71,10 +71,16 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
   );
 
   const rect = (
-    <rect width={pxWidth + 2} height={pxHeight + 2} x={rectX - 1} y={rectY - 1} style={rectStyle} />
+    <rect
+      width={pxWidth + 2}
+      height={pxHeight + 2}
+      x={rectX - 1}
+      y={rectY - 1}
+      style={rectStyle}
+    />
   );
   const svgOverlay = (
-    <svg width={baseSize} height={baseSize} style={{position: 'absolute'}}>
+    <svg width={baseSize} height={baseSize} style={{position: "absolute"}}>
       {mouseCoords && rect}
     </svg>
   );
@@ -82,27 +88,32 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
   return (
     <Layout>
       <div
-        style={{width: baseSize, height: baseSize, gridArea: 'source'}}
-        onMouseMove={e => setMouseCoords(getClickCoords(e))}
+        style={{width: baseSize, height: baseSize, gridArea: "source"}}
+        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
       >
         <img
           ref={imgRef}
           width={baseSize}
           height={baseSize}
-          style={{imageRendering: 'pixelated', position: 'absolute'}}
+          style={{imageRendering: "pixelated", position: "absolute"}}
           src={src}
         />
         {svgOverlay}
       </div>
       <div
-        style={{width: baseSize, height: baseSize, gridArea: 'dest'}}
-        onMouseMove={e => setMouseCoords(getClickCoords(e))}
+        style={{width: baseSize, height: baseSize, gridArea: "dest"}}
+        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
       >
-        <canvas ref={cnv} width={baseSize} height={baseSize} style={{position: 'absolute'}} />
+        <canvas
+          ref={cnv}
+          width={baseSize}
+          height={baseSize}
+          style={{position: "absolute"}}
+        />
         {svgOverlay}
       </div>
 
-      <Code customStyle={{gridArea: 'fn'}}>{pixelCode}</Code>
+      <Code customStyle={{gridArea: "fn"}}>{pixelCode}</Code>
     </Layout>
   );
 };

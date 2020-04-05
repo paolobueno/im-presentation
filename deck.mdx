@@ -1,13 +1,15 @@
-import '@babel/polyfill';
+import "@babel/polyfill";
 
-export {default as theme} from './theme';
-import {Head, Appear} from 'mdx-deck';
-import ImagesAsFunctions from './slides/ImagesAsFunctions';
-import Channels from './slides/Channels';
-import MindMap from './slides/MindMap';
-import {default as fullMindMap, shallow, ImageProcessing} from './mindMap.js';
-import {P, A, LI} from 'components/basic';
-
+export {default as theme} from "./theme";
+import {Head, Steps} from "mdx-deck";
+import ImagesAsFunctions from "./slides/ImagesAsFunctions";
+import Channels from "./slides/Channels";
+import MindMap from "./slides/MindMap";
+import {default as fullMindMap, shallow, ImageProcessing} from "./mindMap.js";
+import {P, A, LI} from "./components/basic";
+{
+  const Appear = Steps;
+}
 <Head>
   <title>Computer vision basics on the Web</title>
   <link
@@ -20,16 +22,16 @@ import {P, A, LI} from 'components/basic';
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossOrigin="anonymous"
   />
-</Head>
+</Head>;
 
 # Computer&nbsp;vision basics on&nbsp;the&nbsp;Web
 
-<div style={{textAlign: 'right'}}>
+<div style={{textAlign: "right"}}>
   <small>by Paolo Bueno</small>
   <br />
   <A href="http://linkedin.com/in/paolobueno">
     <i className="fab fa-linkedin" />
-  </A>{' '}
+  </A>{" "}
   <A href="https://github.com/paolobueno">
     <i className="fab fa-github" />
   </A>
@@ -40,8 +42,8 @@ import {P, A, LI} from 'components/basic';
 # Why?
 
 <Appear>
-  <P>Explore newer Web APIs</P>
-  <P>Computer vision is a great intro to AI and ML</P>
+  <P key="1">Explore newer Web APIs</P>
+  <P key="2">Computer vision is a great intro to AI and ML</P>
 </Appear>
 
 ---
@@ -52,7 +54,7 @@ import {P, A, LI} from 'components/basic';
 
 ---
 
-import CSSFilters from './slides/CSSFilters';
+import CSSFilters from "./slides/CSSFilters";
 
 ## CSS filters
 
@@ -76,7 +78,7 @@ import CSSFilters from './slides/CSSFilters';
       <b>Image Processing</b>
     </LI>
     <LI>Feature Extraction</LI>
-    <LI style={{color: '#aaa'}}>Recognition</LI>
+    <LI style={{color: "#aaa"}}>Recognition</LI>
   </Appear>
 </ol>
 
@@ -89,7 +91,7 @@ import CSSFilters from './slides/CSSFilters';
     <b>Pre-processing</b>
   </LI>
   <LI>Dimensionality Reduction</LI>
-  <LI style={{color: '#aaa'}}>Classification/Clustering</LI>
+  <LI style={{color: "#aaa"}}>Classification/Clustering</LI>
 </ol>
 
 ---
@@ -110,7 +112,7 @@ import CSSFilters from './slides/CSSFilters';
 
 ## Images are arrays
 
-import ImagesAsArrays from './slides/ImagesAsArrays';
+import ImagesAsArrays from "./slides/ImagesAsArrays";
 
 <ImagesAsArrays src="assets/lenna_small.png" />
 
@@ -126,7 +128,12 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-<MindMap map={fullMindMap} width={1300} height={1000} highlight={'Image Processing'} />
+<MindMap
+  map={fullMindMap}
+  width={1300}
+  height={1000}
+  highlight={"Image Processing"}
+/>
 
 ---
 
@@ -135,7 +142,7 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
   width={1200}
   height={800}
   minLabelSize={2}
-  highlight={'Convolutions'}
+  highlight={"Convolutions"}
 />
 
 ---
@@ -146,7 +153,7 @@ import ImagesAsArrays from './slides/ImagesAsArrays';
 
 ---
 
-import Convolution from './slides/Convolution';
+import Convolution from "./slides/Convolution";
 
 ## Convolutions
 
@@ -159,12 +166,12 @@ import Convolution from './slides/Convolution';
   width={1200}
   height={800}
   minLabelSize={2}
-  highlight={'Thresholding'}
+  highlight={"Thresholding"}
 />
 
 ---
 
-import Grayscaling from 'slides/Grayscaling';
+import Grayscaling from "./slides/Grayscaling";
 
 ## Thresholding
 
@@ -177,7 +184,7 @@ import Grayscaling from 'slides/Grayscaling';
   width={1200}
   height={800}
   minLabelSize={2}
-  highlight={'Morphology'}
+  highlight={"Morphology"}
 />
 
 ---
@@ -186,9 +193,9 @@ import Grayscaling from 'slides/Grayscaling';
 
 <div
   style={{
-    display: 'grid',
-    gridTemplateColumns: '1fr 1fr',
-    gridColumnGap: '0.3em',
+    display: "grid",
+    gridTemplateColumns: "1fr 1fr",
+    gridColumnGap: "0.3em",
   }}
 >
   <div>
@@ -213,11 +220,11 @@ import Grayscaling from 'slides/Grayscaling';
 
 ## Morphology
 
-import Morphology from 'slides/Morphology';
+import Morphology from "./slides/Morphology";
 
 <Morphology
   src="assets/segmentation1.png"
-  style={{width: '60vw', height: '60vh'}}
+  style={{width: "60vw", height: "60vh"}}
 />
 
 ---
@@ -237,20 +244,20 @@ import Morphology from 'slides/Morphology';
 
 ## Feature descriptors
 
-<img style={{height: '60vh'}} src="assets/descriptor.jpg" />
+<img style={{height: "60vh"}} src="assets/descriptor.jpg" />
 
 ---
 
 ## Connected Components
 
-<img style={{height: '60vh'}} src="assets/segmentation1.png" />
-<img style={{height: '60vh'}} src="assets/segmentation2.png" />
+<img style={{height: "60vh"}} src="assets/segmentation1.png" />
+<img style={{height: "60vh"}} src="assets/segmentation2.png" />
 
 ---
 
 ## Corner detection
 
-<img style={{height: '70vh'}} src="assets/corner.png" />
+<img style={{height: "70vh"}} src="assets/corner.png" />
 
 ---
 

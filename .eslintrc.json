@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["warp/es6", "warp/jsx"],
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parser": "babel-eslint",
   "rules": {
     "react/prop-types": "off"
