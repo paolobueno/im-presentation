@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import {Line, LineChart, YAxis, XAxis} from 'recharts';
-import ScanImage from '../components/ScanImage';
+import React, {useState} from "react";
+import {Line, LineChart, YAxis, XAxis} from "recharts";
+import ScanImage from "../components/ScanImage";
+import fruits from "../assets/fruits.jpg";
 
 const width = 800;
 const height = 500;
 
-const processPxArray = pixels => {
+const processPxArray = (pixels) => {
   const res = [];
   for (let i = 0; i < pixels.length; i += 4) {
     res.push({
@@ -19,7 +20,7 @@ const processPxArray = pixels => {
   return res;
 };
 
-export default () => {
+const ImagesAsFunctions = () => {
   const [levels, setLevels] = useState([]);
   const [vertical, setVertical] = useState(false);
   const lineOpts = {
@@ -27,23 +28,23 @@ export default () => {
     animationDuration: 300,
   };
   return (
-    <div style={{display: 'flex'}}>
+    <div style={{display: "flex"}}>
       <ScanImage
-        src="assets/fruits.jpg"
+        src={fruits}
         width={width}
         height={height}
         vertical={vertical}
         onDoubleClick={() => setVertical(!vertical)}
-        onData={pixels => setLevels(processPxArray(pixels))}
+        onData={(pixels) => setLevels(processPxArray(pixels))}
       />
       <LineChart
-        layout={vertical ? 'vertical' : 'horizontal'}
+        layout={vertical ? "vertical" : "horizontal"}
         data={levels}
         width={width * 0.7}
         height={height}
       >
-        <YAxis type={vertical ? 'category' : 'number'} hide />
-        <XAxis type={vertical ? 'number' : 'category'} hide />
+        <YAxis type={vertical ? "category" : "number"} hide />
+        <XAxis type={vertical ? "number" : "category"} hide />
         <Line dataKey="r" {...lineOpts} stroke="red" />
         <Line dataKey="g" {...lineOpts} stroke="green" />
         <Line dataKey="b" {...lineOpts} stroke="blue" />
@@ -51,3 +52,5 @@ export default () => {
     </div>
   );
 };
+
+export default ImagesAsFunctions;

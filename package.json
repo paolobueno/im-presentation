@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mdx-deck deck.mdx",
+    "start": "mdx-deck --no-open deck.mdx",
     "build": "mdx-deck build deck.mdx && cp -r assets/ dist",
     "deploy": "gh-pages -d dist",
     "toc": "cat deck.mdx| grep '^#' | uniq > toc.md",

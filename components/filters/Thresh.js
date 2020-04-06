@@ -1,7 +1,7 @@
-import React from 'react';
+import React from "react";
 
-export default ({thresh, inGraphic, outGraphic = 'thresh'}) => {
-  const table = '0 '.repeat(thresh) + '1 '.repeat(256 - thresh);
+const Thresh = ({thresh, inGraphic, outGraphic = "thresh"}) => {
+  const table = "0 ".repeat(thresh) + "1 ".repeat(256 - thresh);
   return (
     <feComponentTransfer in={inGraphic} out={outGraphic}>
       <feFuncR type="discrete" tableValues={table} />
@@ -10,3 +10,5 @@ export default ({thresh, inGraphic, outGraphic = 'thresh'}) => {
     </feComponentTransfer>
   );
 };
+
+export default Thresh;

@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import Code from '../components/Code';
-import {Item, Toggler} from '../components/Toggler';
-import {themeProp} from '../utils';
+import React, {useState} from "react";
+import styled from "@emotion/styled";
+import Code from "../components/Code";
+import {Item, Toggler} from "../components/Toggler";
+import {themeProp} from "../utils";
 
-const rainbow = 'linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)';
+const rainbow =
+  "linear-gradient(to right, red, orange, yellow, green, blue, indigo, violet)";
 
 const Showcase = styled.div`
   width: 40vw;
@@ -26,22 +27,22 @@ const Ball = styled.div`
   width: 60px;
   height: 60px;
   border-radius: 60px;
-  background-color: ${({bg = 'blue'}) => bg};
+  background-color: ${({bg = "blue"}) => bg};
   border: 1px solid black;
 `;
 
-const innerShadow = 'inset 0 0 10px black';
+const innerShadow = "inset 0 0 10px black";
 const Button = styled.div`
-  font-family: ${themeProp('monospace')};
+  font-family: ${themeProp("monospace")};
   border-radius: 5px;
   padding: 0.4em;
-  background-color: ${({active}) => (active ? '#00b8a7' : '#ffb400')};
-  box-shadow: ${({active}) => (active ? innerShadow : 'none')};
+  background-color: ${({active}) => (active ? "#00b8a7" : "#ffb400")};
+  box-shadow: ${({active}) => (active ? innerShadow : "none")};
   transition: all ease-in-out 0.3s;
 `;
 
-export default () => {
-  const [filter, setFilter] = useState('');
+const CSSFilters = () => {
+  const [filter, setFilter] = useState("");
   return (
     <div>
       <Showcase style={{filter}}>
@@ -50,17 +51,17 @@ export default () => {
         <Ball bg="green" />
         <Ball style={{background: rainbow}} />
         Hello
-        <i className="fas fa-globe-americas" style={{color: 'blue'}} />
+        <i className="fas fa-globe-americas" style={{color: "blue"}} />
       </Showcase>
       <div
         style={{
-          display: 'flex',
-          justifyContent: 'space-evenly',
-          padding: '0.3em',
-          marginBottom: '1em',
+          display: "flex",
+          justifyContent: "space-evenly",
+          padding: "0.3em",
+          marginBottom: "1em",
         }}
       >
-        <Toggler onChange={arr => setFilter(arr.join(' '))}>
+        <Toggler onChange={(arr) => setFilter(arr.join(" "))}>
           <Item value="blur(3px)">
             <Button>blur</Button>
           </Item>
@@ -75,7 +76,9 @@ export default () => {
           </Item>
         </Toggler>
       </div>
-      <Code language="css">{`filter: ${filter || 'none'};`}</Code>
+      <Code language="css">{`filter: ${filter || "none"};`}</Code>
     </div>
   );
 };
+
+export default CSSFilters;

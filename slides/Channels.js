@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
-import styled from 'styled-components';
-import ImgFilter from '../components/ImgFilter';
-import Code from '../components/Code';
+import React, {useState} from "react";
+import styled from "@emotion/styled";
+import ImgFilter from "../components/ImgFilter";
+import Code from "../components/Code";
+import lenna from "../assets/lenna.png";
 
 const Selectable = styled.div`
-  border: ${({selected}) => (selected ? 'dotted' : 'none')} 0.05em;
+  border: ${({selected}) => (selected ? "dotted" : "none")} 0.05em;
 `;
 
 const filters = [
@@ -46,23 +47,29 @@ const filters = [
   },
 ];
 
-export default ({src}) => {
+const Channels = () => {
   const [selected, setSelected] = useState(0);
   const code = filters[selected].code;
 
   return (
-    <div style={{display: 'flex', flexDirection: 'column'}}>
-      <div style={{display: 'flex', height: '40vh'}}>
+    <div style={{display: "flex", flexDirection: "column"}}>
+      <div style={{display: "flex", height: "40vh"}}>
         {filters.map(({filter}, idx) => (
-          <Selectable key={idx} onClick={() => setSelected(idx)} selected={selected === idx}>
-            <ImgFilter style={{height: '100%', width: 'auto'}} src={src}>
+          <Selectable
+            key={idx}
+            onClick={() => setSelected(idx)}
+            selected={selected === idx}
+          >
+            <ImgFilter style={{height: "100%", width: "auto"}} src={lenna}>
               {filter}
             </ImgFilter>
           </Selectable>
         ))}
       </div>
       {/* 256px is to match the tallest 4 lines, empirical */}
-      <Code customStyle={{minHeight: '256px'}}>{code}</Code>
+      <Code customStyle={{minHeight: "256px"}}>{code}</Code>
     </div>
   );
 };
+
+export default Channels;

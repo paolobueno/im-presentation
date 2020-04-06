@@ -1,19 +1,19 @@
 import "@babel/polyfill";
 
-export {default as theme} from "./theme";
+import {default as myTheme} from "./theme";
 import {Head, Steps} from "mdx-deck";
 import ImagesAsFunctions from "./slides/ImagesAsFunctions";
 import Channels from "./slides/Channels";
 import MindMap from "./slides/MindMap";
 import {default as fullMindMap, shallow, ImageProcessing} from "./mindMap.js";
 import {P, A, LI} from "./components/basic";
-{
-  const Appear = Steps;
-}
+
+export const theme = myTheme;
+
 <Head>
   <title>Computer vision basics on the Web</title>
   <link
-    href="https://fonts.googleapis.com/css?family=Roboto+Slab"
+    href="https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap"
     rel="stylesheet"
   />
   <link
@@ -22,7 +22,7 @@ import {P, A, LI} from "./components/basic";
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossOrigin="anonymous"
   />
-</Head>;
+</Head>
 
 # Computer&nbsp;vision basics on&nbsp;the&nbsp;Web
 
@@ -41,45 +41,51 @@ import {P, A, LI} from "./components/basic";
 
 # Why?
 
-<Appear>
+<Steps>
   <P key="1">Explore newer Web APIs</P>
   <P key="2">Computer vision is a great intro to AI and ML</P>
-</Appear>
+</Steps>
 
 ---
 
 # Web technology primer
 
-<Appear>Filters!</Appear>
+<Steps>
+  <P>Filters!</P>
+</Steps>
 
 ---
 
+<!-- 
 import CSSFilters from "./slides/CSSFilters";
 
 ## CSS filters
 
 <CSSFilters />
 
----
+--- -->
+
+<!-- 
+import svgFiltersImg from "./assets/svgFilters.png";
 
 ## SVG filters
 
 <a href="https://yoksel.github.io/svg-filters/#/" target="_blank">
-  <img width="900px" src="assets/svgFilters.png" />
+  <img width="900px" src={svgFiltersImg} />
 </a>
 
----
+--- -->
 
 # Computer vision
 
 <ol>
-  <Appear>
+  <Steps>
     <LI>
       <b>Image Processing</b>
     </LI>
     <LI>Feature Extraction</LI>
     <LI style={{color: "#aaa"}}>Recognition</LI>
-  </Appear>
+  </Steps>
 </ol>
 
 ---
@@ -106,7 +112,7 @@ import CSSFilters from "./slides/CSSFilters";
 
 ## Images are many channels
 
-<Channels src="assets/lenna.png" />
+<Channels />
 
 ---
 
@@ -114,7 +120,7 @@ import CSSFilters from "./slides/CSSFilters";
 
 import ImagesAsArrays from "./slides/ImagesAsArrays";
 
-<ImagesAsArrays src="assets/lenna_small.png" />
+<ImagesAsArrays />
 
 ---
 
@@ -147,9 +153,11 @@ import ImagesAsArrays from "./slides/ImagesAsArrays";
 
 ---
 
+import ConvolutionsImg from "./assets/convolution.gif";
+
 ## Convolutions
 
-<img src="assets/convolution.gif" />
+<img src={ConvolutionsImg} />
 
 ---
 
@@ -157,7 +165,7 @@ import Convolution from "./slides/Convolution";
 
 ## Convolutions
 
-<Convolution src="assets/cameraman.png" baseWidth={384} baseHeight={384} />
+<Convolution baseWidth={384} baseHeight={384} />
 
 ---
 
@@ -175,7 +183,7 @@ import Grayscaling from "./slides/Grayscaling";
 
 ## Thresholding
 
-<Grayscaling src="assets/segmentation1.png" width={600} height={400} />
+<Grayscaling width={600} height={400} />
 
 ---
 
@@ -189,6 +197,11 @@ import Grayscaling from "./slides/Grayscaling";
 
 ---
 
+import erosion from "./assets/erosion.png";
+import dilation from "./assets/dilation.png";
+import opening from "./assets/opening.png";
+import closing from "./assets/closing.png";
+
 ## Morphology
 
 <div
@@ -200,19 +213,19 @@ import Grayscaling from "./slides/Grayscaling";
 >
   <div>
     <p>Erosion ⊖</p>
-    <img src="assets/erosion.png" height="250" />
+    <img src={erosion} height="250" width="100" />
   </div>
   <div>
     <p>Dilation ⊕</p>
-    <img src="assets/dilation.png" height="250" />
+    <img src={dilation} height="250" />
   </div>
   <div>
     <p>Opening ⊕ ∘ ⊖</p>
-    <img src="assets/opening.png" height="250" />
+    <img src={opening} height="250" />
   </div>
   <div>
     <p>Closing ⊖ ∘ ⊕</p>
-    <img src="assets/closing.png" height="250" />
+    <img src={closing} height="250" />
   </div>
 </div>
 
@@ -222,10 +235,7 @@ import Grayscaling from "./slides/Grayscaling";
 
 import Morphology from "./slides/Morphology";
 
-<Morphology
-  src="assets/segmentation1.png"
-  style={{width: "60vw", height: "60vh"}}
-/>
+<Morphology style={{width: "60vw", height: "60vh"}} />
 
 ---
 
@@ -235,29 +245,36 @@ import Morphology from "./slides/Morphology";
 
 # Feature Extraction
 
-<Appear>
+<Steps>
   <P>"Are these pixels showing a church?"</P>
   <P>"Is something square with a pointy end, a church?"</P>
-</Appear>
+</Steps>
 
 ---
+
+import descriptor from "./assets/descriptor.jpg";
 
 ## Feature descriptors
 
-<img style={{height: "60vh"}} src="assets/descriptor.jpg" />
+<img style={{height: "60vh"}} src={descriptor} />
 
 ---
+
+import segmentation1 from "./assets/segmentation1.png";
+import segmentation2 from "./assets/segmentation2.png";
 
 ## Connected Components
 
-<img style={{height: "60vh"}} src="assets/segmentation1.png" />
-<img style={{height: "60vh"}} src="assets/segmentation2.png" />
+<img style={{height: "60vh"}} src={segmentation1} />
+<img style={{height: "60vh"}} src={segmentation2} />
 
 ---
 
+import corner from "./assets/corner.png";
+
 ## Corner detection
 
-<img style={{height: "70vh"}} src="assets/corner.png" />
+<img style={{height: "70vh"}} src={corner} />
 
 ---
 

@@ -1,8 +1,9 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useGrayImage} from "../hooks";
 import {discretize, getClickCoords} from "../utils";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import Code from "../components/Code";
+import lenna from "../assets/lenna_small.png";
 
 const Layout = styled.div`
   display: grid;
@@ -14,10 +15,10 @@ const Layout = styled.div`
 
 const rectStyle = {fill: "none", stroke: "red", strokeWidth: "3px"};
 
-export default ({src, baseSize = 600}) => {
+const ImagesAsArrays = ({baseSize = 600}) => {
   const cnv = useRef(null);
   const imgRef = useRef(null);
-  const {pixels, width, height} = useGrayImage(src);
+  const {pixels, width, height} = useGrayImage(lenna);
   const [mouseCoords, setMouseCoords] = useState(null);
   const pxWidth = baseSize / width;
   const pxHeight = baseSize / height;
@@ -96,7 +97,7 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
           width={baseSize}
           height={baseSize}
           style={{imageRendering: "pixelated", position: "absolute"}}
-          src={src}
+          src={lenna}
         />
         {svgOverlay}
       </div>
@@ -117,3 +118,5 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
     </Layout>
   );
 };
+
+export default ImagesAsArrays;

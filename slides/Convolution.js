@@ -1,9 +1,10 @@
 import {mathMod, multiply, sum, zipWith} from "ramda";
 import React, {memo, useEffect, useRef, useState} from "react";
-import styled from "styled-components";
+import styled from "@emotion/styled";
 import InlineSlider from "../components/InlineSlider";
 import {useImage} from "../hooks";
 import {discretize, getClickCoords} from "../utils";
+import src from "../assets/cameraman.png";
 
 const threeByThree = [
   [-1, -1],
@@ -93,7 +94,7 @@ const kernels = {
 };
 const defaultKernel = kernels["Box Blur"];
 
-export default memo(({src, baseWidth, baseHeight}) => {
+const Convolution = memo(function Convolution({baseWidth, baseHeight}) {
   const [kernel, setKernelState] = useState(defaultKernel);
   const [mouseCoords, setMouseCoords] = useState(null);
   const [divisor, setDivisor] = useState(sum(defaultKernel));
@@ -268,3 +269,5 @@ export default memo(({src, baseWidth, baseHeight}) => {
     </Container>
   );
 });
+
+export default Convolution;
