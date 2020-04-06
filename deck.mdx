@@ -7,6 +7,7 @@ import Channels from "./slides/Channels";
 import MindMap from "./slides/MindMap";
 import {default as fullMindMap, shallow, ImageProcessing} from "./mindMap.js";
 import {P, A, LI} from "./components/basic";
+import {Grid, Box} from "theme-ui";
 
 export const theme = myTheme;
 
@@ -204,30 +205,24 @@ import closing from "./assets/closing.png";
 
 ## Morphology
 
-<div
-  style={{
-    display: "grid",
-    gridTemplateColumns: "1fr 1fr",
-    gridColumnGap: "0.3em",
-  }}
->
-  <div>
+<Grid width={[128, 128, 128, 128]}>
+  <Box>
     <p>Erosion ⊖</p>
-    <img src={erosion} height="250" width="100" />
-  </div>
-  <div>
+    <img src={erosion} height="250" />
+  </Box>
+  <Box>
     <p>Dilation ⊕</p>
     <img src={dilation} height="250" />
-  </div>
-  <div>
+  </Box>
+  <Box>
     <p>Opening ⊕ ∘ ⊖</p>
     <img src={opening} height="250" />
-  </div>
-  <div>
+  </Box>
+  <Box>
     <p>Closing ⊖ ∘ ⊕</p>
     <img src={closing} height="250" />
-  </div>
-</div>
+  </Box>
+</Grid>
 
 ---
 
