@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "spectacle-cli -s deck.mdx -t theme.js",
-    "build": "spectacle-cli -a build -s deck.mdx -t theme.js ",
+    "build": "spectacle-cli -a build -s deck.mdx -t theme.js && cp -r assets/ dist/",
     "deploy": "gh-pages -d dist",
     "toc": "cat deck.mdx| grep '^#' | uniq > toc.md",
     "lint": "eslint ./*.js components/**/*.js slides/**/*.js"
