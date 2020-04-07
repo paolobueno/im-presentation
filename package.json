@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "mdx-deck --no-open deck.mdx",
-    "build": "mdx-deck build deck.mdx && cp -r assets/ dist",
+    "start": "spectacle-cli -s deck.mdx -t theme.js",
+    "build": "spectacle-cli -a build -s deck.mdx -t theme.js ",
     "deploy": "gh-pages -d dist",
     "toc": "cat deck.mdx| grep '^#' | uniq > toc.md",
     "lint": "eslint ./*.js components/**/*.js slides/**/*.js"
@@ -20,7 +20,8 @@
     "eslint-config-standard-react": "^9.2.0",
     "eslint-plugin-react": "^7.19.0",
     "gh-pages": "^2.2.0",
-    "mdx-deck": "^4.1.1"
+    "mdx-deck": "^4.1.1",
+    "spectacle-cli": "^0.6.2"
   },
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
@@ -31,6 +32,7 @@
     "react-dom": "^16.13.1",
     "react-slider": "^1.0.3",
     "recharts": "^1.8.5",
+    "spectacle": "^6.0.1",
     "styled-components": "^5.0.1",
     "uuid": "^7.0.3"
   }
