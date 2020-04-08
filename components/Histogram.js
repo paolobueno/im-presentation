@@ -1,5 +1,5 @@
 import {map, toPairs, sortBy, prop, compose, reduce} from "ramda";
-import React, {useRef, useState, useEffect, memo} from "react";
+import React, {useRef, useState, useMemo} from "react";
 import {ComposedChart, Line, ResponsiveContainer, XAxis} from "recharts";
 import {useGrayImage} from "../hooks";
 
@@ -50,20 +50,15 @@ const otsu = (histogram, total) => {
   return otsuLevel;
 };
 
-export default memo(function Histogram({onClick, src, style}) {
+function Histogram({onClick, src, style}) {
   const [x, setX] = useState(0);
   const [dragging, setDragging] = useState(false);
-  const otsuThresh = useRef(0);
 
   const {pixels} = useGrayImage(src, 0.1);
 
   const data = hist(pixels);
-  useEffect(
-    function calcOtsu() {
-      otsuThresh.current = otsu(data, pixels.length);
-    },
-    [pixels],
-  );
+
+  const otsuThresh = useMemo(() => otsu(data, pixels.length), [pixels, src]);
 
   let chartWidth = 0;
   const chartRef = useRef(null);
@@ -92,9 +87,9 @@ export default memo(function Histogram({onClick, src, style}) {
           <XAxis dataKey="key" type="number" domain={[0, 255]} hide />
           <Line dataKey="value" dot={false} stroke="red" />
           {x > 0 ? <rect x={x} width={1} height="100%" fill="red" /> : null}
-          {otsuThresh.current ? (
+          {otsuThresh ? (
             <rect
-              x={chartWidth * (otsuThresh.current / 255)}
+              x={chartWidth * (otsuThresh / 255)}
               width={1}
               height="100%"
               fill="blue"
@@ -104,4 +99,6 @@ export default memo(function Histogram({onClick, src, style}) {
       </ResponsiveContainer>
     </div>
   );
-});
+}
+
+export default Histogram;

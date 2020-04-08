@@ -1,4 +1,4 @@
-import React, {useEffect, useRef, useState} from "react";
+import React, {useEffect, useRef, useState, useCallback} from "react";
 import {useGrayImage} from "../hooks";
 import {discretize, getClickCoords} from "../utils";
 import styled from "@emotion/styled";
@@ -30,12 +30,15 @@ const ImagesAsArrays = ({baseSize = 600}) => {
   const rectY = mouseCoords && getRectY(mouseCoords[1]);
   const pixelX = Math.ceil(rectX / pxWidth);
   const pixelY = Math.ceil(rectY / pxHeight);
-  const pixelCode =
-    mouseCoords &&
-    `const {data, width} = canvas.getContext('2d').getImageData()
-data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
-      pixels[pixelY * width + pixelX]
-    }`;
+  const pixelCode = `const {data, width} = canvas.getContext('2d').getImageData()
+data[(${pixelY || 0}/*y*/ * width + ${pixelX || 0}/*x*/) * 4/*RGBA*/] === ${
+    pixels[pixelY * width + pixelX] || 0
+  }`;
+
+  const handleMouseOver = useCallback(
+    (e) => setMouseCoords(getClickCoords(e)),
+    [setMouseCoords, getClickCoords],
+  );
 
   useEffect(
     function drawDestCanvas() {
@@ -81,7 +84,13 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
     />
   );
   const svgOverlay = (
-    <svg width={baseSize} height={baseSize} style={{position: "absolute"}}>
+    <svg
+      width={baseSize}
+      height={baseSize}
+      style={{position: "absolute"}}
+      onMouseMove={handleMouseOver}
+      onMouseLeave={() => setMouseCoords(null)}
+    >
       {mouseCoords && rect}
     </svg>
   );
@@ -89,8 +98,11 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
   return (
     <Layout>
       <div
-        style={{width: baseSize, height: baseSize, gridArea: "source"}}
-        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
+        style={{
+          width: baseSize,
+          height: baseSize,
+          gridArea: "source",
+        }}
       >
         <img
           ref={imgRef}
@@ -102,8 +114,11 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
         {svgOverlay}
       </div>
       <div
-        style={{width: baseSize, height: baseSize, gridArea: "dest"}}
-        onMouseMove={(e) => setMouseCoords(getClickCoords(e))}
+        style={{
+          width: baseSize,
+          height: baseSize,
+          gridArea: "dest",
+        }}
       >
         <canvas
           ref={cnv}
@@ -114,7 +129,15 @@ data[(${pixelY}/*y*/ * width + ${pixelX}/*x*/) * 4/*RGBA*/] === ${
         {svgOverlay}
       </div>
 
-      <Code customStyle={{gridArea: "fn"}}>{pixelCode}</Code>
+      <Code
+        customStyle={{
+          gridArea: "fn",
+          opacity: mouseCoords ? 1 : 0,
+          transition: "opacity 0.5s",
+        }}
+      >
+        {pixelCode}
+      </Code>
     </Layout>
   );
 };

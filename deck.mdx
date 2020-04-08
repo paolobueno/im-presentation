@@ -6,7 +6,7 @@ import ImagesAsFunctions from "./slides/ImagesAsFunctions";
 import Channels from "./slides/Channels";
 import MindMap from "./slides/MindMap";
 import {default as fullMindMap, shallow, ImageProcessing} from "./mindMap.js";
-import {P, A, LI} from "./components/basic";
+import {P, A, LI, Legend} from "./components/basic";
 import {Grid, Box} from "theme-ui";
 
 export const theme = myTheme;
@@ -49,6 +49,7 @@ export const theme = myTheme;
 
 ---
 
+<!-- 
 # Web technology primer
 
 <Steps>
@@ -57,7 +58,6 @@ export const theme = myTheme;
 
 ---
 
-<!-- 
 import CSSFilters from "./slides/CSSFilters";
 
 ## CSS filters
@@ -103,11 +103,23 @@ import svgFiltersImg from "./assets/svgFilters.png";
 
 ---
 
-<MindMap map={fullMindMap} width={1300} height={1000} />
+# What is an image?
 
 ---
 
-# What is an image?
+import ImagesAsArrays from "./slides/ImagesAsArrays";
+
+## Images are arrays
+
+<ImagesAsArrays />
+
+---
+
+## Images are functions of 2D space
+
+<ImagesAsFunctions />
+
+You can always compare a pixel to it's neighbours
 
 ---
 
@@ -117,66 +129,23 @@ import svgFiltersImg from "./assets/svgFilters.png";
 
 ---
 
-## Images are arrays
+import multiChannelTexture from "./assets/3d-texture.png";
 
-import ImagesAsArrays from "./slides/ImagesAsArrays";
+## Images are many channels
 
-<ImagesAsArrays />
+<img src={multiChannelTexture} style={{height: "80vh"}} />
 
 ---
 
-## Images are (continous) functions of space
-
-<ImagesAsFunctions />
+## Audio channels
 
 ---
 
 # Image Processing
 
----
+In the end, we want to recognize something
 
-<MindMap
-  map={fullMindMap}
-  width={1300}
-  height={1000}
-  highlight={"Image Processing"}
-/>
-
----
-
-<MindMap
-  map={ImageProcessing}
-  width={1200}
-  height={800}
-  minLabelSize={2}
-  highlight={"Convolutions"}
-/>
-
----
-
-import ConvolutionsImg from "./assets/convolution.gif";
-
-## Convolutions
-
-<img src={ConvolutionsImg} />
-
----
-
-import Convolution from "./slides/Convolution";
-
-## Convolutions
-
-<Convolution baseWidth={384} baseHeight={384} />
-
----
-
-<MindMap
-  map={ImageProcessing}
-  width={1200}
-  height={800}
-  minLabelSize={2}
-  highlight={"Thresholding"}
-/>
+So we need to simplify things in a smart way
 
 ---
 
@@ -184,17 +153,7 @@ import Grayscaling from "./slides/Grayscaling";
 
 ## Thresholding
 
-<Grayscaling width={600} height={400} />
-
----
-
-<MindMap
-  map={ImageProcessing}
-  width={1200}
-  height={800}
-  minLabelSize={2}
-  highlight={"Morphology"}
-/>
+<Grayscaling />
 
 ---
 
@@ -208,19 +167,19 @@ import closing from "./assets/closing.png";
 <Grid width={[128, 128, 128, 128]}>
   <Box>
     <p>Erosion ⊖</p>
-    <img src={erosion} height="250" />
+    <img src={erosion} style={{height: "40vh"}} />
   </Box>
   <Box>
     <p>Dilation ⊕</p>
-    <img src={dilation} height="250" />
+    <img src={dilation} style={{height: "40vh"}} />
   </Box>
   <Box>
     <p>Opening ⊕ ∘ ⊖</p>
-    <img src={opening} height="250" />
+    <img src={opening} style={{height: "40vh"}} />
   </Box>
   <Box>
     <p>Closing ⊖ ∘ ⊕</p>
-    <img src={closing} height="250" />
+    <img src={closing} style={{height: "40vh"}} />
   </Box>
 </Grid>
 
@@ -234,7 +193,45 @@ import Morphology from "./slides/Morphology";
 
 ---
 
-<MindMap map={fullMindMap.children[1]} width={800} height={700} />
+import morphologyText from "./assets/morphology-text.png";
+
+## Morphology
+
+We can use it for: old-school OCR
+
+<p style={{textAlign: "center"}}>
+  <img src={morphologyText} style={{height: "60vh"}} />
+  <Legend>Fusing things together might be just what we need</Legend>
+</p>
+
+---
+
+import ConvolutionsImg from "./assets/convolution.gif";
+
+## Convolutions
+
+<img src={ConvolutionsImg} style={{height: "70vh"}} />
+
+---
+
+import caffeNet from "./assets/caffenet_learned_filters.png";
+
+## Deep-learned Convolutions
+
+<p style={{textAlign: "center"}}>
+  <img src={caffeNet} style={{height: "60vh"}} />
+  <Legend>1st layer of the CaffeNet model</Legend>
+</p>
+
+The highly-parallelizable computation makes sense for both GPUs and our brains.
+
+---
+
+import Convolution from "./slides/Convolution";
+
+## Convolutions
+
+<Convolution baseWidth={384} baseHeight={384} />
 
 ---
 
@@ -252,6 +249,8 @@ import descriptor from "./assets/descriptor.jpg";
 ## Feature descriptors
 
 <img style={{height: "60vh"}} src={descriptor} />
+
+You want **scale**
 
 ---
 

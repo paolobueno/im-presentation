@@ -16,19 +16,14 @@ export default mergeDeepRight(themes.swiss, {
     userSelect: "none",
     fontSize: "12px",
   },
+  styles: {
+    Slide: {
+      padding: "0 5%",
+    },
+  },
   colors: {
     text: "#24374E",
     background: "#fff",
     primary: "#24374D",
-  },
-  styles: {
-    root: {
-      textAlign: "center",
-    },
-    Slide: {
-      display: "block",
-      padding: "2em",
-      textAlign: "center",
-    },
   },
 });
