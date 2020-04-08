@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import ImgFilter from "../components/ImgFilter";
 import Code from "../components/Code";
 import lenna from "../assets/lenna.png";

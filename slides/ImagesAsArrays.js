@@ -1,7 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import {useGrayImage} from "../hooks";
 import {discretize, getClickCoords} from "../utils";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import Code from "../components/Code";
 import lenna from "../assets/lenna_small.png";
 

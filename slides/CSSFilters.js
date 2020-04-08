@@ -1,5 +1,5 @@
 import React, {useState} from "react";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import Code from "../components/Code";
 import {Item, Toggler} from "../components/Toggler";
 import {themeProp} from "../utils";

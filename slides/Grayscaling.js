@@ -1,5 +1,5 @@
 import React, {useRef, useState} from "react";
-import styled from "@emotion/styled";
+import styled from "styled-components";
 import Thresh from "../components/filters/Thresh";
 import Histogram from "../components/Histogram";
 import ImgFilter from "../components/ImgFilter";
