@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "spectacle-cli -s deck.mdx -t theme.js",
+    "parcel": "parcel index.html",
     "build": "spectacle-cli -a build -s deck.mdx -t theme.js && cp -r assets/ dist/",
     "deploy": "gh-pages -d dist",
     "toc": "cat deck.mdx| grep '^#' | uniq > toc.md",
@@ -25,14 +26,18 @@
   "dependencies": {
     "@babel/polyfill": "^7.8.7",
     "d3": "^5.15.1",
+    "parcel-bundler": "^1.12.4",
     "polished": "^3.5.1",
     "ramda": "^0.27.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-helmet": "^5.2.1",
     "react-slider": "^1.0.3",
+    "react-syntax-highlighter": "^12.2.1",
     "recharts": "^1.8.5",
     "spectacle": "^6.0.1",
     "styled-components": "^5.0.1",
-    "uuid": "^7.0.3"
+    "uuid": "^7.0.3",
+    "yargs": "^15.3.1"
   }
 }

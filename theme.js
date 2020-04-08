@@ -1,10 +1,7 @@
-import {themes} from "mdx-deck";
-import {mergeDeepRight} from "ramda";
-
-export default mergeDeepRight(themes.swiss, {
+export default {
   fonts: {
-    body: ["Montserrat, sans-serif"],
-    heading: ["Montserrat, sans-serif"],
+    body: "Montserrat, sans-serif",
+    header: "Montserrat, sans-serif",
   },
   fontSizes: ["0.5em", "1em", "1.3em", "1.5em", "1.75em"],
   fontWeights: {
@@ -17,9 +14,10 @@ export default mergeDeepRight(themes.swiss, {
     fontSize: "12px",
   },
   colors: {
-    text: "#24374E",
-    background: "#fff",
-    primary: "#24374D",
+    secondary: "#fff",
+    primary: "#fff",
+    // background
+    tertiary: "#0065EF",
   },
   styles: {
     root: {
@@ -31,4 +29,4 @@ export default mergeDeepRight(themes.swiss, {
       textAlign: "center",
     },
   },
-});
+};

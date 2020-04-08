@@ -1,7 +1,8 @@
 import "@babel/polyfill";
 
 import {default as myTheme} from "./theme";
-import {Head, Steps} from "mdx-deck";
+import {Helmet} from "react-helmet";
+import {Appear as Steps} from "spectacle";
 import ImagesAsFunctions from "./slides/ImagesAsFunctions";
 import Channels from "./slides/Channels";
 import MindMap from "./slides/MindMap";
@@ -10,7 +11,7 @@ import {P, A, LI} from "./components/basic";
 
 export const theme = myTheme;
 
-<Head>
+<Helmet>
   <title>Computer vision basics on the Web</title>
   <link
     href="https://fonts.googleapis.com/css?family=Montserrat:400,800&display=swap"
@@ -22,7 +23,7 @@ export const theme = myTheme;
     integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
     crossOrigin="anonymous"
   />
-</Head>
+</Helmet>
 
 # Computer&nbsp;vision basics on&nbsp;the&nbsp;Web
 
@@ -153,11 +154,9 @@ import ImagesAsArrays from "./slides/ImagesAsArrays";
 
 ---
 
-import ConvolutionsImg from "./assets/convolution.gif";
-
 ## Convolutions
 
-<img src={ConvolutionsImg} />
+<img src="assets/convolution.gif" />
 
 ---
 
@@ -197,11 +196,6 @@ import Grayscaling from "./slides/Grayscaling";
 
 ---
 
-import erosion from "./assets/erosion.png";
-import dilation from "./assets/dilation.png";
-import opening from "./assets/opening.png";
-import closing from "./assets/closing.png";
-
 ## Morphology
 
 <div
@@ -213,19 +207,19 @@ import closing from "./assets/closing.png";
 >
   <div>
     <p>Erosion ⊖</p>
-    <img src={erosion} height="250" width="100" />
+    <img src="assets/erosion.png" height="250" />
   </div>
   <div>
     <p>Dilation ⊕</p>
-    <img src={dilation} height="250" />
+    <img src="assets/dilation.png" height="250" />
   </div>
   <div>
     <p>Opening ⊕ ∘ ⊖</p>
-    <img src={opening} height="250" />
+    <img src="assets/opening.png" height="250" />
   </div>
   <div>
     <p>Closing ⊖ ∘ ⊕</p>
-    <img src={closing} height="250" />
+    <img src="assets/closing.png" height="250" />
   </div>
 </div>
 
@@ -252,29 +246,22 @@ import Morphology from "./slides/Morphology";
 
 ---
 
-import descriptor from "./assets/descriptor.jpg";
-
 ## Feature descriptors
 
-<img style={{height: "60vh"}} src={descriptor} />
+<img style={{height: "60vh"}} src="assets/descriptor.jpg" />
 
 ---
-
-import segmentation1 from "./assets/segmentation1.png";
-import segmentation2 from "./assets/segmentation2.png";
 
 ## Connected Components
 
-<img style={{height: "60vh"}} src={segmentation1} />
-<img style={{height: "60vh"}} src={segmentation2} />
+<img style={{height: "60vh"}} src="assets/segmentation1.png" />
+<img style={{height: "60vh"}} src="assets/segmentation2.png" />
 
 ---
 
-import corner from "./assets/corner.png";
-
 ## Corner detection
 
-<img style={{height: "70vh"}} src={corner} />
+<img style={{height: "70vh"}} src="assets/corner.png" />
 
 ---
 
